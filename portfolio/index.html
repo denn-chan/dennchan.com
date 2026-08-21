@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Portfolio | DENN.</title>
+
+  <meta
+    name="description"
+    content="Selected projects, systems and ideas by Dennis Chan."
+  >
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    body {
+      margin: 0;
+
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Helvetica,
+        Arial,
+        sans-serif;
+
+      background: #f5f5f2;
+      color: #181818;
+    }
+
+    /* =========================
+       Page
+    ========================= */
+
+    .page {
+      width: 90%;
+      max-width: 980px;
+
+      margin: 0 auto;
+      padding: 72px 0 60px;
+    }
+
+    /* =========================
+       Header
+    ========================= */
+
+    .top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      margin-bottom: 110px;
+    }
+
+    .logo {
+      color: #181818;
+      text-decoration: none;
+
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -2px;
+
+      transition: opacity 0.18s ease;
+    }
+
+    .logo:visited {
+      color: #181818;
+    }
+
+    .logo:hover {
+      opacity: 0.65;
+    }
+
+    .home {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+
+      min-height: 40px;
+      padding: 8px 16px;
+
+      border: 1px solid #bbb;
+      border-radius: 999px;
+
+      color: #666;
+      text-decoration: none;
+
+      font-size: 0.9rem;
+
+      transition:
+        background 0.18s ease,
+        color 0.18s ease,
+        border-color 0.18s ease;
+    }
+
+    .home:visited {
+      color: #666;
+    }
+
+    .home:hover {
+      background: #181818;
+      border-color: #181818;
+      color: #fff;
+    }
+
+    /* =========================
+       Hero
+    ========================= */
+
+    .eyebrow {
+      margin-bottom: 24px;
+
+      color: #888;
+
+      font-size: 0.78rem;
+      font-weight: 700;
+
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 850px;
+      margin: 0;
+
+      font-size: clamp(3.5rem, 7vw, 6rem);
+      line-height: 0.98;
+
+      letter-spacing: -5px;
+      font-weight: 800;
+    }
+
+    .lead {
+      max-width: 650px;
+
+      margin: 40px 0 0;
+
+      color: #666;
+
+      font-size: 1.25rem;
+      line-height: 1.6;
+      letter-spacing: -0.3px;
+    }
+
+    /* =========================
+       Portfolio
+    ========================= */
+
+    .portfolio {
+      margin-top: 110px;
+    }
+
+    .section-heading {
+      padding-bottom: 18px;
+
+      border-bottom: 1px solid #d8d8d4;
+
+      color: #888;
+
+      font-size: 0.75rem;
+      font-weight: 700;
+
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+    }
+
+    /* =========================
+       Project
+    ========================= */
+
+    .project {
+      display: grid;
+
+      grid-template-columns:
+        90px
+        minmax(0, 1fr)
+        auto;
+
+      gap: 32px;
+
+      padding: 42px 0;
+
+      border-bottom: 1px solid #d8d8d4;
+    }
+
+    .project-number {
+      padding-top: 5px;
+
+      color: #999;
+
+      font-size: 0.85rem;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .project-main {
+      min-width: 0;
+    }
+
+    .project-meta {
+      margin-bottom: 12px;
+
+      color: #999;
+
+      font-size: 0.72rem;
+      font-weight: 700;
+
+      letter-spacing: 1.8px;
+      text-transform: uppercase;
+    }
+
+    .project-title {
+      margin: 0;
+
+      font-size: 1.65rem;
+      line-height: 1.2;
+
+      letter-spacing: -0.8px;
+      font-weight: 700;
+    }
+
+    .project-subtitle {
+      margin-top: 7px;
+
+      color: #777;
+
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+
+    .project-description {
+      max-width: 610px;
+
+      margin-top: 20px;
+
+      color: #444;
+
+      font-size: 1rem;
+      line-height: 1.65;
+    }
+
+    .project-dates {
+      margin-top: 18px;
+
+      color: #999;
+
+      font-size: 0.82rem;
+    }
+
+    .project-action {
+      align-self: center;
+
+      color: #777;
+
+      font-size: 0.9rem;
+      white-space: nowrap;
+    }
+
+    /* =========================
+       Loading / Empty / Error
+    ========================= */
+
+    .status {
+      padding: 50px 0;
+
+      border-bottom: 1px solid #d8d8d4;
+
+      color: #888;
+
+      font-size: 0.95rem;
+    }
+
+    /* =========================
+       Bottom Navigation
+    ========================= */
+
+    .next {
+      margin-top: 70px;
+      padding-top: 45px;
+
+      border-top: 1px solid #d8d8d4;
+    }
+
+    .next-label {
+      margin-bottom: 18px;
+
+      color: #999;
+
+      font-size: 0.75rem;
+      font-weight: 700;
+
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .next-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+
+      min-height: 44px;
+      padding: 9px 18px;
+
+      border: 1px solid #222;
+      border-radius: 999px;
+
+      color: #222;
+      text-decoration: none;
+
+      transition:
+        background 0.18s ease,
+        color 0.18s ease;
+    }
+
+    .button:visited {
+      color: #222;
+    }
+
+    .button:hover {
+      background: #181818;
+      color: #fff;
+    }
+
+    /* =========================
+       Footer
+    ========================= */
+
+    footer {
+      display: flex;
+      justify-content: space-between;
+
+      margin-top: 100px;
+      padding-top: 28px;
+
+      border-top: 1px solid #d8d8d4;
+
+      color: #999;
+      font-size: 0.82rem;
+    }
+
+    /* =========================
+       Mobile
+    ========================= */
+
+    @media (max-width: 700px) {
+
+      .page {
+        width: 100%;
+        padding: 32px 28px 40px;
+      }
+
+      .top {
+        margin-bottom: 80px;
+      }
+
+      .logo {
+        font-size: 1.7rem;
+      }
+
+      h1 {
+        font-size: clamp(3.2rem, 15vw, 5rem);
+        letter-spacing: -4px;
+      }
+
+      .lead {
+        margin-top: 32px;
+        font-size: 1.1rem;
+      }
+
+      .portfolio {
+        margin-top: 80px;
+      }
+
+      .project {
+        display: block;
+        padding: 34px 0;
+      }
+
+      .project-number {
+        margin-bottom: 24px;
+      }
+
+      .project-title {
+        font-size: 1.45rem;
+      }
+
+      .project-description {
+        margin-top: 18px;
+      }
+
+      .project-action {
+        display: none;
+      }
+
+      footer {
+        margin-top: 70px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <main class="page">
+
+    <!-- Header -->
+
+    <header class="top">
+
+      <a class="logo" href="/">
+        DENN.
+      </a>
+
+      <a class="home" href="/">
+        ← Home
+      </a>
+
+    </header>
+
+
+    <!-- Hero -->
+
+    <section>
+
+      <div class="eyebrow">
+        Portfolio
+      </div>
+
+      <h1>
+        Things I've made,<br>
+        improved, or explored.
+      </h1>
+
+      <p class="lead">
+        A collection of projects, systems and ideas —
+        some for work, some for curiosity.
+      </p>
+
+    </section>
+
+
+    <!-- Portfolio -->
+
+    <section class="portfolio">
+
+      <div class="section-heading">
+        Selected work
+      </div>
+
+      <div id="projects">
+
+        <div class="status">
+          Loading projects…
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- Navigation -->
+
+    <section class="next">
+
+      <div class="next-label">
+        Keep exploring
+      </div>
+
+      <div class="next-links">
+
+        <a class="button" href="/about/">
+          About
+        </a>
+
+        <a class="button" href="/cv/">
+          CV
+        </a>
+
+      </div>
+
+    </section>
+
+
+    <!-- Footer -->
+
+    <footer>
+      <span>DENN. · 2026</span>
+      <span>dennchan.com</span>
+    </footer>
+
+  </main>
+
+
+  <script>
+
+    /* =========================
+       Public CV API
+    ========================= */
+
+    const API_URL = "https://api.dennchan.com/cv/";
+
+
+    /* =========================
+       Escape HTML
+    ========================= */
+
+    function escapeHTML(value = "") {
+
+      return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+
+    /* =========================
+       Date
+    ========================= */
+
+    function formatDate(item) {
+
+      const start = item.start_date || "";
+      const end = item.end_date || "";
+
+      if (!start && !end) {
+        return "";
+      }
+
+      if (start && !end) {
+        return start;
+      }
+
+      if (!start && end) {
+        return end;
+      }
+
+      return `${start} — ${end}`;
+    }
+
+
+    /* =========================
+       Category
+    ========================= */
+
+    function projectCategory(item) {
+
+      /*
+        For now we use the item's type.
+
+        Later we can add a dedicated
+        category field to the database.
+      */
+
+      if (!item.type) {
+        return "Project";
+      }
+
+      return item.type
+        .replaceAll("_", " ")
+        .replace(/\b\w/g, char => char.toUpperCase());
+    }
+
+
+    /* =========================
+       Render
+    ========================= */
+
+    function renderProjects(items) {
+
+      const container = document.getElementById("projects");
+
+
+      /*
+        Only show items that belong
+        on the Portfolio.
+      */
+
+      const projects = items
+        .filter(item => Number(item.show_portfolio) === 1)
+        .sort(
+          (a, b) =>
+            Number(a.sort_order || 0) -
+            Number(b.sort_order || 0)
+        );
+
+
+      if (!projects.length) {
+
+        container.innerHTML = `
+          <div class="status">
+            No public projects yet.
+          </div>
+        `;
+
+        return;
+      }
+
+
+      container.innerHTML = projects.map((item, index) => {
+
+        const number =
+          String(index + 1).padStart(2, "0");
+
+        const title =
+          escapeHTML(item.title || "Untitled project");
+
+        const subtitle =
+          escapeHTML(item.subtitle || "");
+
+        const location =
+          escapeHTML(item.location || "");
+
+        const description =
+          escapeHTML(item.description || "");
+
+        const category =
+          escapeHTML(projectCategory(item));
+
+        const dates =
+          escapeHTML(formatDate(item));
+
+
+        let secondary = "";
+
+        if (subtitle && location) {
+          secondary = `${subtitle} · ${location}`;
+        }
+        else if (subtitle) {
+          secondary = subtitle;
+        }
+        else if (location) {
+          secondary = location;
+        }
+
+
+        return `
+          <article class="project">
+
+            <div class="project-number">
+              ${number}
+            </div>
+
+            <div class="project-main">
+
+              <div class="project-meta">
+                ${category}
+              </div>
+
+              <h2 class="project-title">
+                ${title}
+              </h2>
+
+              ${
+                secondary
+                  ? `
+                    <div class="project-subtitle">
+                      ${secondary}
+                    </div>
+                  `
+                  : ""
+              }
+
+              ${
+                description
+                  ? `
+                    <div class="project-description">
+                      ${description}
+                    </div>
+                  `
+                  : ""
+              }
+
+              ${
+                dates
+                  ? `
+                    <div class="project-dates">
+                      ${dates}
+                    </div>
+                  `
+                  : ""
+              }
+
+            </div>
+
+            <div class="project-action">
+              Project
+            </div>
+
+          </article>
+        `;
+
+      }).join("");
+    }
+
+
+    /* =========================
+       Fetch
+    ========================= */
+
+    async function loadPortfolio() {
+
+      const container =
+        document.getElementById("projects");
+
+      try {
+
+        const response =
+          await fetch(API_URL, {
+            method: "GET",
+            headers: {
+              "Accept": "application/json"
+            }
+          });
+
+
+        if (!response.ok) {
+          throw new Error(
+            `API returned ${response.status}`
+          );
+        }
+
+
+        const data =
+          await response.json();
+
+
+        renderProjects(
+          Array.isArray(data.items)
+            ? data.items
+            : []
+        );
+
+      }
+
+      catch (error) {
+
+        console.error(
+          "Portfolio API error:",
+          error
+        );
+
+        container.innerHTML = `
+          <div class="status">
+            Portfolio is temporarily unavailable.
+          </div>
+        `;
+
+      }
+
+    }
+
+
+    loadPortfolio();
+
+  </script>
+
+</body>
+</html>
