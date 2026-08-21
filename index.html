@@ -41,6 +41,10 @@
       align-items: center;
     }
 
+    /* =========================
+       Main Container
+    ========================= */
+
     .container {
       width: 90%;
       max-width: 700px;
@@ -48,46 +52,16 @@
     }
 
     /* =========================
-       Top Bar
+       Private Button
+       Fixed to browser top-right
     ========================= */
 
-    .top {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-
-      margin-bottom: 8px;
-    }
-
-    /* Logo */
-
-    .logo {
-      display: inline-block;
-
-      margin: 0;
-
-      font-size: 4rem;
-      font-weight: 800;
-      line-height: 0.95;
-      letter-spacing: -4px;
-
-      color: #181818;
-      text-decoration: none;
-
-      transition: opacity 0.18s ease;
-    }
-
-    .logo:visited {
-      color: #181818;
-    }
-
-    .logo:hover {
-      opacity: 0.7;
-    }
-
-    /* Private link */
-
     .private-link {
+      position: fixed;
+      top: 48px;
+      right: 48px;
+      z-index: 100;
+
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -121,6 +95,34 @@
       color: #fff;
 
       transform: translateY(-1px);
+    }
+
+    /* =========================
+       Logo
+    ========================= */
+
+    .logo {
+      display: inline-block;
+
+      margin: 0 0 8px;
+
+      font-size: 4rem;
+      font-weight: 800;
+      line-height: 0.95;
+      letter-spacing: -4px;
+
+      color: #181818;
+      text-decoration: none;
+
+      transition: opacity 0.18s ease;
+    }
+
+    .logo:visited {
+      color: #181818;
+    }
+
+    .logo:hover {
+      opacity: 0.7;
     }
 
     /* =========================
@@ -217,25 +219,26 @@
         width: 100%;
 
         padding:
-          max(80px, 12vh)
+          max(100px, 14vh)
           28px
           48px;
       }
 
-      .top {
-        align-items: center;
+      /* Private moves closer to edge */
+
+      .private-link {
+        top: 24px;
+        right: 24px;
+
+        min-height: 36px;
+        padding: 7px 12px;
+
+        font-size: 0.82rem;
       }
 
       .logo {
         font-size: 3.2rem;
         letter-spacing: -3px;
-      }
-
-      .private-link {
-        min-height: 36px;
-        padding: 7px 12px;
-
-        font-size: 0.82rem;
       }
 
       .name {
@@ -267,24 +270,23 @@
 
 <body>
 
+  <!-- Private Site -->
+  <a
+    class="private-link"
+    href="https://private.dennchan.com"
+    aria-label="Open private site"
+  >
+    🔒 Private
+  </a>
+
+
+  <!-- Main Content -->
   <main class="container">
 
-    <!-- Top -->
-    <div class="top">
-
-      <a class="logo" href="/">
-        DENN.
-      </a>
-
-      <a
-        class="private-link"
-        href="https://private.dennchan.com"
-        aria-label="Open private site"
-      >
-        🔒 Private
-      </a>
-
-    </div>
+    <!-- Logo -->
+    <a class="logo" href="/">
+      DENN.
+    </a>
 
     <!-- Name -->
     <div class="name">
@@ -296,7 +298,7 @@
       Welcome to my little corner of the internet.
     </div>
 
-    <!-- Main Navigation -->
+    <!-- Navigation -->
     <nav class="links" aria-label="Main navigation">
 
       <a class="button" href="/about/">
