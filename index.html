@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>DENN. | Dennis Chan</title>
+
   <meta
     name="description"
     content="Dennis Chan — welcome to my little corner of the internet."
@@ -46,12 +47,24 @@
       padding: 64px 20px;
     }
 
+    /* =========================
+       Top Bar
+    ========================= */
+
+    .top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+
+      margin-bottom: 8px;
+    }
+
     /* Logo */
 
     .logo {
       display: inline-block;
 
-      margin: 0 0 8px;
+      margin: 0;
 
       font-size: 4rem;
       font-weight: 800;
@@ -60,6 +73,8 @@
 
       color: #181818;
       text-decoration: none;
+
+      transition: opacity 0.18s ease;
     }
 
     .logo:visited {
@@ -70,7 +85,47 @@
       opacity: 0.7;
     }
 
-    /* Name */
+    /* Private link */
+
+    .private-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+
+      min-height: 40px;
+      padding: 8px 15px;
+
+      border: 1px solid #bbb;
+      border-radius: 999px;
+
+      color: #666;
+      text-decoration: none;
+
+      font-size: 0.9rem;
+      white-space: nowrap;
+
+      transition:
+        background 0.18s ease,
+        color 0.18s ease,
+        border-color 0.18s ease,
+        transform 0.18s ease;
+    }
+
+    .private-link:visited {
+      color: #666;
+    }
+
+    .private-link:hover {
+      background: #181818;
+      border-color: #181818;
+      color: #fff;
+
+      transform: translateY(-1px);
+    }
+
+    /* =========================
+       Name
+    ========================= */
 
     .name {
       margin-bottom: 46px;
@@ -79,7 +134,9 @@
       color: #666;
     }
 
-    /* Introduction */
+    /* =========================
+       Introduction
+    ========================= */
 
     .intro {
       max-width: 620px;
@@ -90,7 +147,9 @@
       letter-spacing: -0.5px;
     }
 
-    /* Navigation */
+    /* =========================
+       Navigation
+    ========================= */
 
     .links {
       display: flex;
@@ -133,24 +192,9 @@
       transform: translateY(-1px);
     }
 
-    /* Private button */
-
-    .button.private {
-      border-color: #aaa;
-      color: #666;
-    }
-
-    .button.private:visited {
-      color: #666;
-    }
-
-    .button.private:hover {
-      background: #181818;
-      border-color: #181818;
-      color: #fff;
-    }
-
-    /* Footer */
+    /* =========================
+       Footer
+    ========================= */
 
     footer {
       margin-top: 72px;
@@ -159,7 +203,9 @@
       font-size: 0.85rem;
     }
 
-    /* Mobile */
+    /* =========================
+       Mobile
+    ========================= */
 
     @media (max-width: 600px) {
 
@@ -169,15 +215,27 @@
 
       .container {
         width: 100%;
+
         padding:
           max(80px, 12vh)
           28px
           48px;
       }
 
+      .top {
+        align-items: center;
+      }
+
       .logo {
         font-size: 3.2rem;
         letter-spacing: -3px;
+      }
+
+      .private-link {
+        min-height: 36px;
+        padding: 7px 12px;
+
+        font-size: 0.82rem;
       }
 
       .name {
@@ -186,6 +244,7 @@
 
       .intro {
         margin-bottom: 38px;
+
         font-size: 1.45rem;
       }
 
@@ -210,21 +269,37 @@
 
   <main class="container">
 
-    <a class="logo" href="/">
-      DENN.
-    </a>
+    <!-- Top -->
+    <div class="top">
 
+      <a class="logo" href="/">
+        DENN.
+      </a>
+
+      <a
+        class="private-link"
+        href="https://private.dennchan.com"
+        aria-label="Open private site"
+      >
+        🔒 Private
+      </a>
+
+    </div>
+
+    <!-- Name -->
     <div class="name">
       Dennis Chan
     </div>
 
+    <!-- Introduction -->
     <div class="intro">
       Welcome to my little corner of the internet.
     </div>
 
+    <!-- Main Navigation -->
     <nav class="links" aria-label="Main navigation">
 
-      <a class="button" href="#">
+      <a class="button" href="/about/">
         About
       </a>
 
@@ -232,19 +307,13 @@
         CV
       </a>
 
-      <a class="button" href="#">
+      <a class="button" href="/portfolio/">
         Portfolio
-      </a>
-
-      <a
-        class="button private"
-        href="https://private.dennchan.com"
-      >
-        🔒 Private
       </a>
 
     </nav>
 
+    <!-- Footer -->
     <footer>
       © 2026 Dennis Chan
     </footer>
