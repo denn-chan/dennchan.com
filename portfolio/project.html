@@ -150,6 +150,13 @@
       letter-spacing: -0.075em;
     }
 
+    /*
+      SHORT DESCRIPTION
+
+      This is project.description.
+      It appears once only, directly below the title.
+    */
+
     .hero-intro {
       max-width: 900px;
       margin: 38px 0 0;
@@ -157,11 +164,11 @@
       color: #5f5f5b;
       font-size: 1.25rem;
       line-height: 1.6;
+      white-space: pre-line;
     }
 
     /* ========================================
        HERO META
-       Same grid as content sections
     ======================================== */
 
     .hero-meta {
@@ -521,7 +528,7 @@
     </header>
 
 
-    <!-- DYNAMIC CONTENT -->
+    <!-- DYNAMIC PROJECT -->
 
     <div id="project">
 
@@ -594,7 +601,7 @@
 
 
     /* ========================================
-       GET SLUG
+       GET PROJECT SLUG
     ======================================== */
 
     function getSlug() {
@@ -604,15 +611,28 @@
           window.location.search
         );
 
+      /*
+        Testing URL:
+
+        /portfolio/project.html?slug=denn
+      */
+
       const querySlug =
         params.get("slug");
 
       if (querySlug) {
+
         return querySlug
           .trim()
           .toLowerCase();
       }
 
+
+      /*
+        Production URL:
+
+        /portfolio/denn/
+      */
 
       const parts =
         window.location.pathname
@@ -625,9 +645,12 @@
         parts[0] === "portfolio" &&
         parts[1] !== "project.html"
       ) {
+
         return decodeURIComponent(
           parts[1]
-        ).toLowerCase();
+        )
+          .trim()
+          .toLowerCase();
       }
 
 
@@ -641,13 +664,16 @@
 
     function renderTools(value) {
 
-      if (!value || !value.trim()) {
+      if (
+        !value ||
+        !String(value).trim()
+      ) {
         return "";
       }
 
 
       const tools =
-        value
+        String(value)
           .split(/[·,]/)
           .map(tool => tool.trim())
           .filter(Boolean);
@@ -698,6 +724,20 @@
       }
 
 
+      const validBullets =
+        bullets.filter(
+          bullet =>
+            bullet &&
+            bullet.content &&
+            String(bullet.content).trim()
+        );
+
+
+      if (!validBullets.length) {
+        return "";
+      }
+
+
       return `
         <section class="detail-section">
 
@@ -709,7 +749,7 @@
 
             <ul class="highlights">
 
-              ${bullets.map(bullet => `
+              ${validBullets.map(bullet => `
                 <li>
                   ${escapeHTML(bullet.content)}
                 </li>
@@ -725,7 +765,7 @@
 
 
     /* ========================================
-       LINKS
+       SAFE URL
     ======================================== */
 
     function safeURL(value) {
@@ -734,10 +774,12 @@
         return "";
       }
 
+
       try {
 
         const url =
           new URL(value);
+
 
         if (
           url.protocol !== "http:" &&
@@ -746,14 +788,21 @@
           return "";
         }
 
+
         return url.href;
 
-      } catch {
+      }
+
+      catch {
 
         return "";
       }
     }
 
+
+    /* ========================================
+       LINKS
+    ======================================== */
 
     function renderLinks(project) {
 
@@ -764,7 +813,10 @@
         safeURL(project.github_url);
 
 
-      if (!projectURL && !githubURL) {
+      if (
+        !projectURL &&
+        !githubURL
+      ) {
         return "";
       }
 
@@ -828,7 +880,14 @@
       const items = [];
 
 
-      if (project.status) {
+      /*
+        STATUS
+      */
+
+      if (
+        project.status &&
+        String(project.status).trim()
+      ) {
 
         items.push(`
           <div class="hero-meta-item">
@@ -845,6 +904,10 @@
         `);
       }
 
+
+      /*
+        DATE
+      */
 
       if (
         project.start_date ||
@@ -875,7 +938,6 @@
 
           date =
             project.end_date;
-
         }
 
 
@@ -919,7 +981,7 @@
 
       if (
         !content ||
-        !content.trim()
+        !String(content).trim()
       ) {
         return "";
       }
@@ -951,23 +1013,62 @@
 
     function renderProject(project) {
 
+      /*
+        FIELD STRUCTURE
+
+        description
+        = Short Description
+        = Hero only
+
+        overview
+        = Portfolio card description
+        = Overview section on project page
+
+        why
+        = Why I built it section
+      */
+
+
       const category =
         project.category ||
         "Project";
 
 
-      const intro =
-        project.overview ||
-        project.description ||
-        "";
+      /*
+        IMPORTANT:
+
+        Hero uses SHORT DESCRIPTION only.
+
+        Do NOT use overview as fallback,
+        otherwise Overview appears twice.
+      */
+
+      const shortDescription =
+        project.description
+          ? String(project.description).trim()
+          : "";
 
 
       document.title =
         `${project.title} | DENN.`;
 
 
+      /*
+        SEO description priority:
+
+        Short Description
+        then Overview if Short Description is empty.
+
+        This does NOT affect visible page content.
+      */
+
+      const seoSource =
+        shortDescription ||
+        String(project.overview || "").trim();
+
+
       const metaDescription =
-        intro
+        seoSource
           .replace(/\s+/g, " ")
           .trim()
           .slice(0, 155);
@@ -975,13 +1076,15 @@
 
       if (metaDescription) {
 
-        const description =
+        const descriptionMeta =
           document.querySelector(
             'meta[name="description"]'
           );
 
-        if (description) {
-          description.setAttribute(
+
+        if (descriptionMeta) {
+
+          descriptionMeta.setAttribute(
             "content",
             metaDescription
           );
@@ -990,6 +1093,10 @@
 
 
       projectElement.innerHTML = `
+
+        <!-- ==================================
+             HERO
+        =================================== -->
 
         <section class="hero">
 
@@ -1001,40 +1108,65 @@
             ${escapeHTML(project.title)}
           </h1>
 
+
+          <!-- SHORT DESCRIPTION -->
+
           ${
-            intro
+            shortDescription
               ? `
-                <p class="hero-intro">${escapeHTML(
-                  intro
-                )}</p>
+                <p class="hero-intro">
+                  ${escapeHTML(shortDescription)}
+                </p>
               `
               : ""
           }
+
+
+          <!-- STATUS / DATE -->
 
           ${renderMeta(project)}
 
         </section>
 
 
+        <!-- ==================================
+             PROJECT CONTENT
+        =================================== -->
+
         <div class="content">
+
+
+          <!-- OVERVIEW -->
 
           ${renderTextSection(
             "Overview",
             project.overview
           )}
 
+
+          <!-- WHY I BUILT IT -->
+
           ${renderTextSection(
             "Why I built it",
             project.why
           )}
 
+
+          <!-- TOOLS -->
+
           ${renderTools(
             project.tools
           )}
 
+
+          <!-- HIGHLIGHTS -->
+
           ${renderHighlights(
             project.bullets
           )}
+
+
+          <!-- LINKS -->
 
           ${renderLinks(
             project
@@ -1042,6 +1174,8 @@
 
         </div>
 
+
+        <!-- ALL PROJECTS -->
 
         <div class="all-projects">
 
@@ -1084,7 +1218,7 @@
 
 
     /* ========================================
-       LOAD
+       LOAD PROJECT
     ======================================== */
 
     async function loadProject() {
@@ -1107,12 +1241,15 @@
       try {
 
         const response =
-          await fetch(API_URL, {
-            method: "GET",
-            headers: {
-              "Accept": "application/json"
+          await fetch(
+            API_URL,
+            {
+              method: "GET",
+              headers: {
+                "Accept": "application/json"
+              }
             }
-          });
+          );
 
 
         if (!response.ok) {
@@ -1136,6 +1273,10 @@
         }
 
 
+        /*
+          Find matching public portfolio project
+        */
+
         const project =
           Array.isArray(data.items)
 
@@ -1145,7 +1286,9 @@
 
                 String(
                   item.slug || ""
-                ).toLowerCase() === slug &&
+                )
+                  .trim()
+                  .toLowerCase() === slug &&
 
                 Number(
                   item.is_public
@@ -1189,6 +1332,10 @@
       }
     }
 
+
+    /* ========================================
+       START
+    ======================================== */
 
     loadProject();
 
