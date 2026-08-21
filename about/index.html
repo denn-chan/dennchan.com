@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>About | DENN.</title>
+
+  <meta
+    name="description"
+    content="About Dennis Chan."
+  >
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    body {
+      margin: 0;
+
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Helvetica,
+        Arial,
+        sans-serif;
+
+      background: #f5f5f2;
+      color: #181818;
+    }
+
+    /* =========================
+       Page
+    ========================= */
+
+    .page {
+      width: 90%;
+      max-width: 980px;
+
+      margin: 0 auto;
+      padding: 72px 0 60px;
+    }
+
+    /* =========================
+       Header
+    ========================= */
+
+    .top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      margin-bottom: 110px;
+    }
+
+    .logo {
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -2px;
+
+      color: #181818;
+      text-decoration: none;
+    }
+
+    .logo:hover {
+      opacity: 0.65;
+    }
+
+    .home {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+
+      min-height: 40px;
+      padding: 8px 16px;
+
+      border: 1px solid #bbb;
+      border-radius: 999px;
+
+      color: #666;
+      text-decoration: none;
+      font-size: 0.9rem;
+
+      transition:
+        background 0.18s ease,
+        color 0.18s ease,
+        border-color 0.18s ease;
+    }
+
+    .home:hover {
+      background: #181818;
+      border-color: #181818;
+      color: white;
+    }
+
+    /* =========================
+       Hero
+    ========================= */
+
+    .eyebrow {
+      margin-bottom: 24px;
+
+      color: #888;
+
+      font-size: 0.78rem;
+      font-weight: 700;
+
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 850px;
+
+      margin: 0;
+
+      font-size: clamp(3.6rem, 8vw, 6.5rem);
+      line-height: 0.95;
+
+      letter-spacing: -6px;
+      font-weight: 800;
+    }
+
+    .lead {
+      max-width: 680px;
+
+      margin: 46px 0 0;
+
+      color: #555;
+
+      font-size: 1.45rem;
+      line-height: 1.55;
+
+      letter-spacing: -0.4px;
+    }
+
+    /* =========================
+       Sections
+    ========================= */
+
+    .content {
+      margin-top: 110px;
+    }
+
+    .section {
+      display: grid;
+      grid-template-columns: 190px 1fr;
+      gap: 32px;
+
+      padding: 42px 0;
+
+      border-top: 1px solid #d8d8d4;
+    }
+
+    .section-label {
+      padding-top: 3px;
+
+      color: #888;
+
+      font-size: 0.75rem;
+      font-weight: 700;
+
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .section-body {
+      max-width: 660px;
+    }
+
+    .section-body p {
+      margin: 0 0 20px;
+
+      font-size: 1.08rem;
+      line-height: 1.7;
+
+      color: #333;
+    }
+
+    .section-body p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* =========================
+       Facts
+    ========================= */
+
+    .facts {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0 30px;
+    }
+
+    .fact {
+      padding: 18px 0;
+
+      border-bottom: 1px solid #dededb;
+    }
+
+    .fact-label {
+      margin-bottom: 6px;
+
+      color: #999;
+
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+    }
+
+    .fact-value {
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+
+    /* =========================
+       Bottom Navigation
+    ========================= */
+
+    .next {
+      margin-top: 70px;
+      padding-top: 45px;
+
+      border-top: 1px solid #d8d8d4;
+    }
+
+    .next-label {
+      margin-bottom: 18px;
+
+      color: #999;
+
+      font-size: 0.75rem;
+      font-weight: 700;
+
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .next-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+
+      min-height: 44px;
+      padding: 9px 18px;
+
+      border: 1px solid #222;
+      border-radius: 999px;
+
+      color: #222;
+      text-decoration: none;
+
+      transition:
+        background 0.18s ease,
+        color 0.18s ease;
+    }
+
+    .button:hover {
+      background: #181818;
+      color: white;
+    }
+
+    /* =========================
+       Footer
+    ========================= */
+
+    footer {
+      display: flex;
+      justify-content: space-between;
+
+      margin-top: 100px;
+      padding-top: 28px;
+
+      border-top: 1px solid #d8d8d4;
+
+      color: #999;
+      font-size: 0.82rem;
+    }
+
+    /* =========================
+       Mobile
+    ========================= */
+
+    @media (max-width: 700px) {
+
+      .page {
+        width: 100%;
+        padding: 32px 28px 40px;
+      }
+
+      .top {
+        margin-bottom: 80px;
+      }
+
+      .logo {
+        font-size: 1.7rem;
+      }
+
+      h1 {
+        font-size: clamp(3.3rem, 16vw, 5rem);
+        letter-spacing: -4px;
+      }
+
+      .lead {
+        margin-top: 34px;
+
+        font-size: 1.2rem;
+      }
+
+      .content {
+        margin-top: 80px;
+      }
+
+      .section {
+        display: block;
+        padding: 34px 0;
+      }
+
+      .section-label {
+        margin-bottom: 24px;
+      }
+
+      .facts {
+        grid-template-columns: 1fr;
+      }
+
+      footer {
+        margin-top: 70px;
+      }
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <main class="page">
+
+    <!-- Header -->
+
+    <header class="top">
+
+      <a class="logo" href="/">
+        DENN.
+      </a>
+
+      <a class="home" href="/">
+        ← Home
+      </a>
+
+    </header>
+
+
+    <!-- Hero -->
+
+    <section>
+
+      <div class="eyebrow">
+        About
+      </div>
+
+      <h1>
+        Hello, I'm<br>
+        Dennis Chan.
+      </h1>
+
+      <p class="lead">
+        I work with people, operations and ideas — usually somewhere
+        between solving problems, making things better, and figuring
+        out what could be done differently.
+      </p>
+
+    </section>
+
+
+    <!-- Content -->
+
+    <div class="content">
+
+
+      <!-- Work -->
+
+      <section class="section">
+
+        <div class="section-label">
+          What I do
+        </div>
+
+        <div class="section-body">
+
+          <p>
+            My background is in hospitality operations, where I've
+            spent much of my career working with teams, systems and
+            the small details that shape an experience.
+          </p>
+
+          <p>
+            I'm especially interested in improving how things work —
+            whether that's simplifying a process, organizing
+            information, developing an idea, or finding a more
+            thoughtful way to solve an everyday problem.
+          </p>
+
+        </div>
+
+      </section>
+
+
+      <!-- Curiosity -->
+
+      <section class="section">
+
+        <div class="section-label">
+          Curiosity
+        </div>
+
+        <div class="section-body">
+
+          <p>
+            I like learning about things that sit outside my usual
+            world. Technology, sustainability, design, cities,
+            transportation and the way organizations work are some
+            of the subjects that regularly send me down a rabbit hole.
+          </p>
+
+          <p>
+            A lot of the projects on this website started exactly
+            that way: I wondered whether something could be done,
+            then decided to try building it.
+          </p>
+
+        </div>
+
+      </section>
+
+
+      <!-- Outside work -->
+
+      <section class="section">
+
+        <div class="section-label">
+          Outside work
+        </div>
+
+        <div class="section-body">
+
+          <p>
+            Away from work, I enjoy drawing, getting outdoors,
+            travelling and making small personal projects simply
+            because I find them interesting.
+          </p>
+
+          <p>
+            This website is one of those projects — a small place
+            for my work, experiments and whatever else I think is
+            worth keeping.
+          </p>
+
+        </div>
+
+      </section>
+
+
+      <!-- Quick facts -->
+
+      <section class="section">
+
+        <div class="section-label">
+          A few things
+        </div>
+
+        <div class="section-body">
+
+          <div class="facts">
+
+            <div class="fact">
+              <div class="fact-label">Based in</div>
+              <div class="fact-value">Vancouver, Canada</div>
+            </div>
+
+            <div class="fact">
+              <div class="fact-label">Originally from</div>
+              <div class="fact-value">Hong Kong</div>
+            </div>
+
+            <div class="fact">
+              <div class="fact-label">Interested in</div>
+              <div class="fact-value">
+                Operations · Design · Technology
+              </div>
+            </div>
+
+            <div class="fact">
+              <div class="fact-label">Also enjoys</div>
+              <div class="fact-value">
+                Drawing · Outdoors · Travel
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+    </div>
+
+
+    <!-- Continue -->
+
+    <section class="next">
+
+      <div class="next-label">
+        Keep exploring
+      </div>
+
+      <div class="next-links">
+
+        <a class="button" href="/cv/">
+          CV
+        </a>
+
+        <a class="button" href="/portfolio/">
+          Portfolio
+        </a>
+
+      </div>
+
+    </section>
+
+
+    <!-- Footer -->
+
+    <footer>
+      <span>DENN. · 2026</span>
+      <span>dennchan.com</span>
+    </footer>
+
+  </main>
+
+</body>
+</html>
