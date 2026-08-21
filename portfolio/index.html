@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>Portfolio | DENN.</title>
-
   <meta
     name="description"
     content="Selected projects, systems and ideas by Dennis Chan."
@@ -23,6 +22,7 @@
 
     body {
       margin: 0;
+      min-height: 100vh;
 
       font-family:
         -apple-system,
@@ -36,64 +36,56 @@
       color: #181818;
     }
 
-    /* =========================
-       Page
-    ========================= */
-
-    .page {
-      width: 90%;
-      max-width: 980px;
-
-      margin: 0 auto;
-      padding: 72px 0 60px;
+    a {
+      color: inherit;
     }
 
-    /* =========================
-       Header
-    ========================= */
+    /* ========================================
+       PAGE
+    ======================================== */
 
-    .top {
+    .page {
+      width: min(1100px, calc(100% - 64px));
+      margin: 0 auto;
+      padding: 64px 0 40px;
+    }
+
+    /* ========================================
+       HEADER
+    ======================================== */
+
+    .header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-
-      margin-bottom: 110px;
     }
 
     .logo {
-      color: #181818;
-      text-decoration: none;
-
       font-size: 2rem;
       font-weight: 800;
+      line-height: 1;
       letter-spacing: -2px;
-
-      transition: opacity 0.18s ease;
-    }
-
-    .logo:visited {
-      color: #181818;
+      text-decoration: none;
     }
 
     .logo:hover {
       opacity: 0.65;
     }
 
-    .home {
+    .home-button {
       display: inline-flex;
       align-items: center;
       justify-content: center;
 
-      min-height: 40px;
-      padding: 8px 16px;
+      min-height: 42px;
+      padding: 9px 18px;
 
-      border: 1px solid #bbb;
+      border: 1px solid #c8c8c3;
       border-radius: 999px;
 
-      color: #666;
+      color: #777;
       text-decoration: none;
-
-      font-size: 0.9rem;
+      font-size: 0.95rem;
 
       transition:
         background 0.18s ease,
@@ -101,118 +93,95 @@
         border-color 0.18s ease;
     }
 
-    .home:visited {
-      color: #666;
-    }
-
-    .home:hover {
+    .home-button:hover {
       background: #181818;
       border-color: #181818;
       color: #fff;
     }
 
-    /* =========================
-       Hero
-    ========================= */
+    /* ========================================
+       HERO
+    ======================================== */
+
+    .hero {
+      padding: 112px 0 118px;
+    }
 
     .eyebrow {
-      margin-bottom: 24px;
+      margin: 0 0 28px;
 
-      color: #888;
-
-      font-size: 0.78rem;
-      font-weight: 700;
-
-      letter-spacing: 3px;
-      text-transform: uppercase;
-    }
-
-    h1 {
-      max-width: 850px;
-      margin: 0;
-
-      font-size: clamp(3.5rem, 7vw, 6rem);
-      line-height: 0.98;
-
-      letter-spacing: -5px;
-      font-weight: 800;
-    }
-
-    .lead {
-      max-width: 650px;
-
-      margin: 40px 0 0;
-
-      color: #666;
-
-      font-size: 1.25rem;
-      line-height: 1.6;
-      letter-spacing: -0.3px;
-    }
-
-    /* =========================
-       Portfolio
-    ========================= */
-
-    .portfolio {
-      margin-top: 110px;
-    }
-
-    .section-heading {
-      padding-bottom: 18px;
-
-      border-bottom: 1px solid #d8d8d4;
-
-      color: #888;
-
+      color: #8c8c87;
       font-size: 0.75rem;
       font-weight: 700;
-
-      letter-spacing: 2.5px;
+      letter-spacing: 0.24em;
       text-transform: uppercase;
     }
 
-    /* =========================
-       Project
-    ========================= */
+    .hero h1 {
+      max-width: 900px;
+      margin: 0;
+
+      font-size: clamp(4rem, 7.2vw, 6.5rem);
+      font-weight: 800;
+      line-height: 0.93;
+      letter-spacing: -0.075em;
+    }
+
+    .hero-description {
+      max-width: 650px;
+      margin: 42px 0 0;
+
+      color: #666;
+      font-size: 1.2rem;
+      line-height: 1.55;
+    }
+
+    /* ========================================
+       SECTION
+    ======================================== */
+
+    .section-label {
+      margin: 0 0 18px;
+
+      color: #8c8c87;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+    }
+
+    .projects {
+      border-top: 1px solid #d8d8d3;
+    }
+
+    /* ========================================
+       PROJECT
+    ======================================== */
 
     .project {
       display: grid;
-
-      grid-template-columns:
-        90px
-        minmax(0, 1fr)
-        auto;
-
+      grid-template-columns: 72px minmax(0, 1fr);
       gap: 32px;
 
-      padding: 42px 0;
-
-      border-bottom: 1px solid #d8d8d4;
+      padding: 42px 0 44px;
+      border-bottom: 1px solid #d8d8d3;
     }
 
     .project-number {
-      padding-top: 5px;
+      padding-top: 3px;
 
-      color: #999;
-
-      font-size: 0.85rem;
+      color: #aaa;
+      font-size: 0.82rem;
       font-variant-numeric: tabular-nums;
     }
 
-    .project-main {
-      min-width: 0;
-    }
-
-    .project-meta {
-      margin-bottom: 12px;
+    .project-type {
+      margin: 0 0 14px;
 
       color: #999;
-
-      font-size: 0.72rem;
+      font-size: 0.68rem;
       font-weight: 700;
-
-      letter-spacing: 1.8px;
+      letter-spacing: 0.2em;
       text-transform: uppercase;
     }
 
@@ -220,87 +189,93 @@
       margin: 0;
 
       font-size: 1.65rem;
-      line-height: 1.2;
-
-      letter-spacing: -0.8px;
-      font-weight: 700;
+      font-weight: 750;
+      line-height: 1.1;
+      letter-spacing: -0.035em;
     }
 
-    .project-subtitle {
-      margin-top: 7px;
+    .project-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px 16px;
 
-      color: #777;
+      margin-top: 12px;
 
-      font-size: 1rem;
-      line-height: 1.5;
+      color: #999;
+      font-size: 0.9rem;
     }
 
     .project-description {
-      max-width: 610px;
+      max-width: 760px;
+      margin: 20px 0 0;
 
-      margin-top: 20px;
-
-      color: #444;
-
+      color: #555;
       font-size: 1rem;
       line-height: 1.65;
+
+      white-space: pre-line;
     }
 
-    .project-dates {
-      margin-top: 18px;
+    /* ========================================
+       BULLETS
+    ======================================== */
 
-      color: #999;
-
-      font-size: 0.82rem;
+    .project-bullets {
+      max-width: 760px;
+      margin: 24px 0 0;
+      padding: 0;
+      list-style: none;
     }
 
-    .project-action {
-      align-self: center;
+    .project-bullets li {
+      position: relative;
+      margin: 9px 0;
+      padding-left: 18px;
 
-      color: #777;
-
-      font-size: 0.9rem;
-      white-space: nowrap;
+      color: #555;
+      line-height: 1.55;
     }
 
-    /* =========================
-       Loading / Empty / Error
-    ========================= */
+    .project-bullets li::before {
+      content: "—";
+      position: absolute;
+      left: 0;
+      color: #aaa;
+    }
+
+    /* ========================================
+       EMPTY / ERROR
+    ======================================== */
 
     .status {
-      padding: 50px 0;
+      padding: 38px 0;
+      border-bottom: 1px solid #d8d8d3;
 
-      border-bottom: 1px solid #d8d8d4;
-
-      color: #888;
-
+      color: #999;
       font-size: 0.95rem;
     }
 
-    /* =========================
-       Bottom Navigation
-    ========================= */
+    /* ========================================
+       BOTTOM NAV
+    ======================================== */
 
-    .next {
-      margin-top: 70px;
-      padding-top: 45px;
-
-      border-top: 1px solid #d8d8d4;
+    .bottom {
+      margin-top: 78px;
+      padding-top: 36px;
+      border-top: 1px solid #d8d8d3;
     }
 
-    .next-label {
+    .bottom-label {
       margin-bottom: 18px;
 
       color: #999;
-
-      font-size: 0.75rem;
+      font-size: 0.7rem;
       font-weight: 700;
-
-      letter-spacing: 2px;
+      letter-spacing: 0.22em;
       text-transform: uppercase;
     }
 
-    .next-links {
+    .bottom-links {
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
@@ -311,7 +286,7 @@
       align-items: center;
       justify-content: center;
 
-      min-height: 44px;
+      min-height: 42px;
       padding: 9px 18px;
 
       border: 1px solid #222;
@@ -319,96 +294,103 @@
 
       color: #222;
       text-decoration: none;
+      font-size: 0.95rem;
 
       transition:
         background 0.18s ease,
-        color 0.18s ease;
-    }
-
-    .button:visited {
-      color: #222;
+        color 0.18s ease,
+        transform 0.18s ease;
     }
 
     .button:hover {
       background: #181818;
       color: #fff;
+      transform: translateY(-1px);
     }
 
-    /* =========================
-       Footer
-    ========================= */
+    /* ========================================
+       FOOTER
+    ======================================== */
 
     footer {
       display: flex;
       justify-content: space-between;
 
-      margin-top: 100px;
-      padding-top: 28px;
+      margin-top: 86px;
+      padding-top: 22px;
+      border-top: 1px solid #d8d8d3;
 
-      border-top: 1px solid #d8d8d4;
-
-      color: #999;
+      color: #aaa;
       font-size: 0.82rem;
     }
 
-    /* =========================
-       Mobile
-    ========================= */
+    /* ========================================
+       MOBILE
+    ======================================== */
 
     @media (max-width: 700px) {
 
       .page {
-        width: 100%;
-        padding: 32px 28px 40px;
-      }
-
-      .top {
-        margin-bottom: 80px;
+        width: calc(100% - 48px);
+        padding-top: 32px;
       }
 
       .logo {
         font-size: 1.7rem;
       }
 
-      h1 {
+      .home-button {
+        min-height: 38px;
+        padding: 7px 14px;
+        font-size: 0.88rem;
+      }
+
+      .hero {
+        padding: 82px 0 88px;
+      }
+
+      .eyebrow {
+        margin-bottom: 22px;
+      }
+
+      .hero h1 {
         font-size: clamp(3.2rem, 15vw, 5rem);
-        letter-spacing: -4px;
+        line-height: 0.94;
       }
 
-      .lead {
+      .hero-description {
         margin-top: 32px;
-        font-size: 1.1rem;
-      }
-
-      .portfolio {
-        margin-top: 80px;
+        font-size: 1.05rem;
       }
 
       .project {
-        display: block;
-        padding: 34px 0;
+        grid-template-columns: 1fr;
+        gap: 14px;
+
+        padding: 32px 0 36px;
       }
 
       .project-number {
-        margin-bottom: 24px;
+        padding: 0;
       }
 
       .project-title {
-        font-size: 1.45rem;
+        font-size: 1.5rem;
       }
 
       .project-description {
-        margin-top: 18px;
+        font-size: 0.98rem;
       }
 
-      .project-action {
-        display: none;
+      .bottom {
+        margin-top: 60px;
       }
 
       footer {
-        margin-top: 70px;
+        margin-top: 64px;
       }
     }
+
   </style>
 </head>
 
@@ -416,35 +398,35 @@
 
   <main class="page">
 
-    <!-- Header -->
+    <!-- HEADER -->
 
-    <header class="top">
+    <header class="header">
 
       <a class="logo" href="/">
         DENN.
       </a>
 
-      <a class="home" href="/">
+      <a class="home-button" href="/">
         ← Home
       </a>
 
     </header>
 
 
-    <!-- Hero -->
+    <!-- HERO -->
 
-    <section>
+    <section class="hero">
 
-      <div class="eyebrow">
+      <p class="eyebrow">
         Portfolio
-      </div>
+      </p>
 
       <h1>
         Things I've made,<br>
         improved, or explored.
       </h1>
 
-      <p class="lead">
+      <p class="hero-description">
         A collection of projects, systems and ideas —
         some for work, some for curiosity.
       </p>
@@ -452,34 +434,36 @@
     </section>
 
 
-    <!-- Portfolio -->
+    <!-- PROJECTS -->
 
-    <section class="portfolio">
+    <section>
 
-      <div class="section-heading">
-        Selected work
-      </div>
+      <p class="section-label">
+        Selected Work
+      </p>
 
-      <div id="projects">
-
+      <div
+        id="projects"
+        class="projects"
+        aria-live="polite"
+      >
         <div class="status">
-          Loading projects…
+          Loading selected work…
         </div>
-
       </div>
 
     </section>
 
 
-    <!-- Navigation -->
+    <!-- BOTTOM NAV -->
 
-    <section class="next">
+    <section class="bottom">
 
-      <div class="next-label">
+      <div class="bottom-label">
         Keep exploring
       </div>
 
-      <div class="next-links">
+      <nav class="bottom-links" aria-label="More pages">
 
         <a class="button" href="/about/">
           About
@@ -489,12 +473,12 @@
           CV
         </a>
 
-      </div>
+      </nav>
 
     </section>
 
 
-    <!-- Footer -->
+    <!-- FOOTER -->
 
     <footer>
       <span>DENN. · 2026</span>
@@ -506,16 +490,15 @@
 
   <script>
 
-    /* =========================
-       Public CV API
-    ========================= */
-
     const API_URL = "https://api.dennchan.com/cv/";
 
+    const projectsElement =
+      document.getElementById("projects");
 
-    /* =========================
-       Escape HTML
-    ========================= */
+
+    /* ========================================
+       ESCAPE HTML
+    ======================================== */
 
     function escapeHTML(value = "") {
 
@@ -528,194 +511,144 @@
     }
 
 
-    /* =========================
-       Date
-    ========================= */
+    /* ========================================
+       PROJECT META
+    ======================================== */
 
-    function formatDate(item) {
+    function createMeta(item) {
+
+      const parts = [];
+
+      if (item.subtitle) {
+        parts.push(item.subtitle);
+      }
+
+      if (item.location) {
+        parts.push(item.location);
+      }
 
       const start = item.start_date || "";
       const end = item.end_date || "";
 
-      if (!start && !end) {
+      if (start || end) {
+
+        let date = "";
+
+        if (start && end) {
+          date = `${start} — ${end}`;
+        }
+        else if (start) {
+          date = start;
+        }
+        else {
+          date = end;
+        }
+
+        parts.push(date);
+      }
+
+      if (!parts.length) {
         return "";
       }
 
-      if (start && !end) {
-        return start;
-      }
-
-      if (!start && end) {
-        return end;
-      }
-
-      return `${start} — ${end}`;
+      return `
+        <div class="project-meta">
+          ${parts
+            .map(
+              part => `<span>${escapeHTML(part)}</span>`
+            )
+            .join("")}
+        </div>
+      `;
     }
 
 
-    /* =========================
-       Category
-    ========================= */
+    /* ========================================
+       BULLETS
+    ======================================== */
 
-    function projectCategory(item) {
+    function createBullets(bullets) {
 
-      /*
-        For now we use the item's type.
-
-        Later we can add a dedicated
-        category field to the database.
-      */
-
-      if (!item.type) {
-        return "Project";
+      if (
+        !Array.isArray(bullets) ||
+        bullets.length === 0
+      ) {
+        return "";
       }
 
-      return item.type
-        .replaceAll("_", " ")
-        .replace(/\b\w/g, char => char.toUpperCase());
+      return `
+        <ul class="project-bullets">
+          ${bullets
+            .map(
+              bullet => `
+                <li>
+                  ${escapeHTML(bullet.content)}
+                </li>
+              `
+            )
+            .join("")}
+        </ul>
+      `;
     }
 
 
-    /* =========================
-       Render
-    ========================= */
+    /* ========================================
+       PROJECT
+    ======================================== */
 
-    function renderProjects(items) {
+    function createProject(item, index) {
 
-      const container = document.getElementById("projects");
+      const number =
+        String(index + 1).padStart(2, "0");
 
+      const type =
+        item.type === "project"
+          ? "Project"
+          : item.type || "Project";
 
-      /*
-        Only show items that belong
-        on the Portfolio.
-      */
+      return `
+        <article class="project">
 
-      const projects = items
-        .filter(item => Number(item.show_portfolio) === 1)
-        .sort(
-          (a, b) =>
-            Number(a.sort_order || 0) -
-            Number(b.sort_order || 0)
-        );
-
-
-      if (!projects.length) {
-
-        container.innerHTML = `
-          <div class="status">
-            No public projects yet.
+          <div class="project-number">
+            ${number}
           </div>
-        `;
 
-        return;
-      }
+          <div class="project-content">
 
+            <p class="project-type">
+              ${escapeHTML(type)}
+            </p>
 
-      container.innerHTML = projects.map((item, index) => {
+            <h2 class="project-title">
+              ${escapeHTML(item.title)}
+            </h2>
 
-        const number =
-          String(index + 1).padStart(2, "0");
+            ${createMeta(item)}
 
-        const title =
-          escapeHTML(item.title || "Untitled project");
+            ${
+              item.description
+                ? `
+                  <p class="project-description">${escapeHTML(
+                    item.description
+                  )}</p>
+                `
+                : ""
+            }
 
-        const subtitle =
-          escapeHTML(item.subtitle || "");
+            ${createBullets(item.bullets)}
 
-        const location =
-          escapeHTML(item.location || "");
+          </div>
 
-        const description =
-          escapeHTML(item.description || "");
-
-        const category =
-          escapeHTML(projectCategory(item));
-
-        const dates =
-          escapeHTML(formatDate(item));
-
-
-        let secondary = "";
-
-        if (subtitle && location) {
-          secondary = `${subtitle} · ${location}`;
-        }
-        else if (subtitle) {
-          secondary = subtitle;
-        }
-        else if (location) {
-          secondary = location;
-        }
-
-
-        return `
-          <article class="project">
-
-            <div class="project-number">
-              ${number}
-            </div>
-
-            <div class="project-main">
-
-              <div class="project-meta">
-                ${category}
-              </div>
-
-              <h2 class="project-title">
-                ${title}
-              </h2>
-
-              ${
-                secondary
-                  ? `
-                    <div class="project-subtitle">
-                      ${secondary}
-                    </div>
-                  `
-                  : ""
-              }
-
-              ${
-                description
-                  ? `
-                    <div class="project-description">
-                      ${description}
-                    </div>
-                  `
-                  : ""
-              }
-
-              ${
-                dates
-                  ? `
-                    <div class="project-dates">
-                      ${dates}
-                    </div>
-                  `
-                  : ""
-              }
-
-            </div>
-
-            <div class="project-action">
-              Project
-            </div>
-
-          </article>
-        `;
-
-      }).join("");
+        </article>
+      `;
     }
 
 
-    /* =========================
-       Fetch
-    ========================= */
+    /* ========================================
+       LOAD PORTFOLIO
+    ======================================== */
 
     async function loadPortfolio() {
-
-      const container =
-        document.getElementById("projects");
 
       try {
 
@@ -735,33 +668,63 @@
         }
 
 
-        const data =
-          await response.json();
+        const data = await response.json();
 
 
-        renderProjects(
-          Array.isArray(data.items)
-            ? data.items
-            : []
-        );
+        if (!data.success) {
+          throw new Error(
+            data.error || "API request failed"
+          );
+        }
+
+
+        const projects = Array.isArray(data.items)
+          ? data.items
+              .filter(
+                item =>
+                  Number(item.show_portfolio) === 1
+              )
+              .sort(
+                (a, b) =>
+                  Number(a.sort_order || 0) -
+                  Number(b.sort_order || 0)
+              )
+          : [];
+
+
+        if (projects.length === 0) {
+
+          projectsElement.innerHTML = `
+            <div class="status">
+              No public projects yet.
+            </div>
+          `;
+
+          return;
+        }
+
+
+        projectsElement.innerHTML =
+          projects
+            .map(createProject)
+            .join("");
 
       }
 
       catch (error) {
 
         console.error(
-          "Portfolio API error:",
+          "Portfolio loading error:",
           error
         );
 
-        container.innerHTML = `
+        projectsElement.innerHTML = `
           <div class="status">
-            Portfolio is temporarily unavailable.
+            Selected work is temporarily unavailable.
           </div>
         `;
 
       }
-
     }
 
 
