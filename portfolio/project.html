@@ -127,7 +127,7 @@
     ======================================== */
 
     .hero {
-      padding: 120px 0 105px;
+      padding: 120px 0 70px;
     }
 
     .eyebrow {
@@ -151,7 +151,7 @@
     }
 
     .hero-intro {
-      max-width: 760px;
+      max-width: 900px;
       margin: 38px 0 0;
 
       color: #5f5f5b;
@@ -159,35 +159,39 @@
       line-height: 1.6;
     }
 
-    .project-meta {
+    /* ========================================
+       HERO META
+    ======================================== */
+
+    .hero-meta {
       display: flex;
       flex-wrap: wrap;
-      gap: 10px 26px;
+      align-items: center;
+      gap: 12px 34px;
 
-      margin-top: 36px;
-      padding-top: 25px;
-      border-top: 1px solid #d8d8d3;
+      margin-top: 28px;
 
-      color: #8a8a86;
-      font-size: 0.88rem;
+      color: #777;
+      font-size: 0.92rem;
     }
 
-    .meta-item {
+    .hero-meta-item {
       display: flex;
-      flex-direction: column;
-      gap: 5px;
+      align-items: baseline;
+      gap: 10px;
     }
 
-    .meta-label {
-      color: #aaa;
-      font-size: 0.65rem;
+    .hero-meta-label {
+      color: #999;
+      font-size: 0.66rem;
       font-weight: 700;
-      letter-spacing: 0.16em;
+      letter-spacing: 0.18em;
       text-transform: uppercase;
     }
 
-    .meta-value {
-      color: #555;
+    .hero-meta-value {
+      color: #181818;
+      font-weight: 700;
     }
 
     /* ========================================
@@ -437,7 +441,7 @@
       }
 
       .hero {
-        padding: 82px 0 75px;
+        padding: 82px 0 55px;
       }
 
       .hero h1 {
@@ -450,8 +454,9 @@
         font-size: 1.08rem;
       }
 
-      .project-meta {
-        gap: 18px 28px;
+      .hero-meta {
+        margin-top: 24px;
+        gap: 10px 24px;
       }
 
       .detail-section {
@@ -582,13 +587,6 @@
           window.location.search
         );
 
-      /*
-        Allows us to test project.html before
-        routing exists:
-
-        /portfolio/project.html?slug=denn
-      */
-
       const querySlug =
         params.get("slug");
 
@@ -598,12 +596,6 @@
           .toLowerCase();
       }
 
-
-      /*
-        Future production URL:
-
-        /portfolio/denn/
-      */
 
       const parts =
         window.location.pathname
@@ -811,7 +803,7 @@
 
 
     /* ========================================
-       META
+       HERO META
     ======================================== */
 
     function renderMeta(project) {
@@ -822,15 +814,15 @@
       if (project.status) {
 
         items.push(`
-          <div class="meta-item">
+          <div class="hero-meta-item">
 
-            <span class="meta-label">
+            <span class="hero-meta-label">
               Status
             </span>
 
-            <span class="meta-value">
+            <strong class="hero-meta-value">
               ${escapeHTML(project.status)}
-            </span>
+            </strong>
 
           </div>
         `);
@@ -871,15 +863,15 @@
 
 
         items.push(`
-          <div class="meta-item">
+          <div class="hero-meta-item">
 
-            <span class="meta-label">
+            <span class="hero-meta-label">
               Date
             </span>
 
-            <span class="meta-value">
+            <strong class="hero-meta-value">
               ${escapeHTML(date)}
-            </span>
+            </strong>
 
           </div>
         `);
@@ -892,7 +884,7 @@
 
 
       return `
-        <div class="project-meta">
+        <div class="hero-meta">
           ${items.join("")}
         </div>
       `;
