@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>CV | DENN.</title>
+  <meta name="description" content="Curriculum Vitae of Dennis Chan">
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      margin: 0;
+      background: #f5f5f2;
+      color: #181818;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+        Helvetica, Arial, sans-serif;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .page {
+      width: min(920px, calc(100% - 48px));
+      margin: 0 auto;
+      padding: 70px 0 90px;
+    }
+
+    /* HEADER */
+
+    .top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 24px;
+      margin-bottom: 100px;
+    }
+
+    .logo {
+      font-size: 2rem;
+      line-height: 1;
+      font-weight: 800;
+      letter-spacing: -2px;
+      text-decoration: none;
+    }
+
+    .back {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 9px 15px;
+      border: 1px solid #c9c9c5;
+      border-radius: 999px;
+      color: #666;
+      font-size: 0.9rem;
+      text-decoration: none;
+      transition: 0.18s ease;
+    }
+
+    .back:hover {
+      border-color: #181818;
+      color: #181818;
+    }
+
+    /* INTRO */
+
+    .hero {
+      max-width: 760px;
+      margin-bottom: 90px;
+    }
+
+    .eyebrow {
+      margin-bottom: 18px;
+      color: #888;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(3.4rem, 9vw, 6.4rem);
+      line-height: 0.95;
+      letter-spacing: -0.065em;
+      font-weight: 750;
+    }
+
+    .profile-fields {
+      margin-top: 30px;
+      max-width: 650px;
+    }
+
+    .profile-field {
+      margin-top: 9px;
+      color: #6f6f6b;
+      font-size: 1.1rem;
+      line-height: 1.6;
+    }
+
+    .profile-field:first-child {
+      margin-top: 0;
+    }
+
+    /* SECTIONS */
+
+    .section {
+      margin-top: 85px;
+    }
+
+    .section-heading {
+      padding-bottom: 15px;
+      border-bottom: 1px solid #d9d9d5;
+      color: #777;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+    }
+
+    /* CV ITEM */
+
+    .item {
+      display: grid;
+      grid-template-columns: 170px 1fr;
+      gap: 40px;
+      padding: 38px 0;
+      border-bottom: 1px solid #dfdfdb;
+    }
+
+    .item-date {
+      padding-top: 3px;
+      color: #858581;
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    .item-title {
+      margin: 0;
+      font-size: 1.45rem;
+      line-height: 1.2;
+      letter-spacing: -0.025em;
+      font-weight: 650;
+    }
+
+    .item-subtitle {
+      margin-top: 7px;
+      color: #666;
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+
+    .location {
+      color: #999;
+    }
+
+    .description {
+      max-width: 650px;
+      margin-top: 18px;
+      color: #555;
+      font-size: 0.98rem;
+      line-height: 1.7;
+      white-space: pre-line;
+    }
+
+    .bullets {
+      max-width: 650px;
+      margin: 20px 0 0;
+      padding-left: 19px;
+      color: #555;
+    }
+
+    .bullets li {
+      margin: 9px 0;
+      padding-left: 4px;
+      line-height: 1.65;
+    }
+
+    /* STATES */
+
+    .loading,
+    .empty,
+    .error {
+      padding: 35px 0;
+      color: #888;
+      font-size: 0.95rem;
+    }
+
+    /* FOOTER */
+
+    footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      margin-top: 110px;
+      padding-top: 25px;
+      border-top: 1px solid #d9d9d5;
+      color: #999;
+      font-size: 0.8rem;
+    }
+
+    footer a {
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      color: #181818;
+    }
+
+    /* MOBILE */
+
+    @media (max-width: 650px) {
+      .page {
+        width: min(100% - 36px, 920px);
+        padding-top: 36px;
+        padding-bottom: 55px;
+      }
+
+      .top {
+        margin-bottom: 75px;
+      }
+
+      .logo {
+        font-size: 1.7rem;
+      }
+
+      .hero {
+        margin-bottom: 70px;
+      }
+
+      h1 {
+        font-size: clamp(3.2rem, 16vw, 5rem);
+      }
+
+      .item {
+        grid-template-columns: 1fr;
+        gap: 12px;
+        padding: 30px 0;
+      }
+
+      .item-date {
+        font-size: 0.82rem;
+      }
+
+      .item-title {
+        font-size: 1.3rem;
+      }
+
+      footer {
+        margin-top: 80px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <main class="page">
+
+    <header class="top">
+      <a class="logo" href="/">DENN.</a>
+
+      <a class="back" href="/">
+        ← Home
+      </a>
+    </header>
+
+    <section class="hero">
+      <div class="eyebrow">Curriculum Vitae</div>
+
+      <h1 id="name">Dennis Chan</h1>
+
+      <div id="profile" class="profile-fields"></div>
+    </section>
+
+    <div id="content">
+      <div class="loading">Loading CV…</div>
+    </div>
+
+    <footer>
+      <span>DENN. · 2026</span>
+      <a href="/">dennchan.com</a>
+    </footer>
+
+  </main>
+
+  <script>
+    /*
+      Replace this with your actual Worker URL if your workers.dev
+      subdomain is different.
+    */
+    const API_URL =
+      "https://denn-public-api.dennis-245.workers.dev/cv";
+
+    const nameEl = document.getElementById("name");
+    const profileEl = document.getElementById("profile");
+    const contentEl = document.getElementById("content");
+
+    function escapeHTML(value = "") {
+      return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function formatDate(item) {
+      const start = item.start_date?.trim();
+      const end = item.end_date?.trim();
+
+      if (!start && !end) return "";
+
+      if (start && !end) {
+        return `${escapeHTML(start)} — Present`;
+      }
+
+      if (!start && end) {
+        return escapeHTML(end);
+      }
+
+      return `${escapeHTML(start)} — ${escapeHTML(end)}`;
+    }
+
+    function sectionName(type) {
+      const names = {
+        experience: "Experience",
+        education: "Education",
+        project: "Projects",
+        award: "Awards",
+        certification: "Certifications",
+        volunteer: "Volunteer"
+      };
+
+      return names[type] || (
+        type
+          ? type.charAt(0).toUpperCase() + type.slice(1)
+          : "Other"
+      );
+    }
+
+    function renderItem(item) {
+      const subtitle = item.subtitle
+        ? `<span>${escapeHTML(item.subtitle)}</span>`
+        : "";
+
+      const location = item.location
+        ? `<span class="location">${
+            item.subtitle ? " · " : ""
+          }${escapeHTML(item.location)}</span>`
+        : "";
+
+      const description = item.description
+        ? `<div class="description">${escapeHTML(item.description)}</div>`
+        : "";
+
+      const bullets =
+        Array.isArray(item.bullets) && item.bullets.length
+          ? `
+            <ul class="bullets">
+              ${item.bullets.map(bullet => `
+                <li>${escapeHTML(bullet.content)}</li>
+              `).join("")}
+            </ul>
+          `
+          : "";
+
+      return `
+        <article class="item">
+
+          <div class="item-date">
+            ${formatDate(item)}
+          </div>
+
+          <div class="item-main">
+
+            <h2 class="item-title">
+              ${escapeHTML(item.title)}
+            </h2>
+
+            ${
+              subtitle || location
+                ? `
+                  <div class="item-subtitle">
+                    ${subtitle}${location}
+                  </div>
+                `
+                : ""
+            }
+
+            ${description}
+
+            ${bullets}
+
+          </div>
+
+        </article>
+      `;
+    }
+
+    function renderProfile(profile) {
+      if (!Array.isArray(profile)) return;
+
+      const nameField = profile.find(
+        field => field.field_key === "name"
+      );
+
+      if (nameField?.value) {
+        nameEl.textContent = nameField.value;
+        document.title = `CV | ${nameField.value}`;
+      }
+
+      const otherFields = profile.filter(
+        field =>
+          field.field_key !== "name" &&
+          field.value &&
+          field.value.trim()
+      );
+
+      profileEl.innerHTML = otherFields
+        .map(field => `
+          <div class="profile-field">
+            ${escapeHTML(field.value)}
+          </div>
+        `)
+        .join("");
+    }
+
+    function renderItems(items) {
+      if (!Array.isArray(items) || !items.length) {
+        contentEl.innerHTML = `
+          <div class="empty">
+            CV details coming soon.
+          </div>
+        `;
+        return;
+      }
+
+      const groups = {};
+
+      items.forEach(item => {
+        const type = item.type || "other";
+
+        if (!groups[type]) {
+          groups[type] = [];
+        }
+
+        groups[type].push(item);
+      });
+
+      contentEl.innerHTML = Object.entries(groups)
+        .map(([type, group]) => `
+          <section class="section">
+
+            <div class="section-heading">
+              ${escapeHTML(sectionName(type))}
+            </div>
+
+            ${group.map(renderItem).join("")}
+
+          </section>
+        `)
+        .join("");
+    }
+
+    async function loadCV() {
+      try {
+        const response = await fetch(API_URL, {
+          method: "GET",
+          headers: {
+            "Accept": "application/json"
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error(`API returned ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        if (!data.success) {
+          throw new Error(data.error || "Unable to load CV");
+        }
+
+        renderProfile(data.profile);
+        renderItems(data.items);
+
+      } catch (error) {
+        console.error(error);
+
+        contentEl.innerHTML = `
+          <div class="error">
+            CV is temporarily unavailable.
+          </div>
+        `;
+      }
+    }
+
+    loadCV();
+  </script>
+
+</body>
+</html>
