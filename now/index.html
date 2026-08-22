@@ -2,177 +2,247 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Now — DENN.</title>
-  <meta name="description" content="What's happening around Dennis right now.">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+  >
+
+  <title>NOW.</title>
 
   <link rel="stylesheet" href="/now/style.css">
 </head>
 
 <body>
 
-  <main class="page">
+  <main class="now">
 
-    <!-- HEADER -->
-    <header class="header">
-      <a href="/" class="brand">DENN.</a>
+    <!-- TOP BAR -->
 
-      <div class="location">
+    <header class="topbar">
+
+      <div class="identity">
+        DENN. / NOW
+      </div>
+
+      <div class="place">
         VANCOUVER
       </div>
+
     </header>
 
 
-    <!-- TIME -->
-    <section class="time-section">
+    <!-- MAIN INFORMATION -->
 
-      <div id="clock" class="clock">
-        --:--
-      </div>
+    <section class="main-grid">
 
-      <div id="date" class="date">
-        —
-      </div>
+      <!-- CLOCK -->
 
-    </section>
+      <section class="clock-panel">
 
-
-    <!-- WEATHER -->
-    <section class="section weather-section">
-
-      <div class="section-label">
-        WEATHER
-      </div>
-
-      <div class="weather-layout">
-
-        <div id="temperature" class="temperature">
-          --°
+        <div class="label">
+          LOCAL TIME
         </div>
 
-        <div class="weather-details">
-
-          <div id="weather-condition" class="weather-condition">
-            Loading
-          </div>
-
-          <div class="weather-secondary">
-            Feels like
-            <span id="feels-like">--°</span>
-          </div>
-
-          <div class="weather-secondary">
-            <span id="weather-high">--°</span>
-            /
-            <span id="weather-low">--°</span>
-          </div>
-
+        <div id="clock" class="clock">
+          --:--
         </div>
 
-      </div>
-
-    </section>
-
-
-    <!-- TRANSIT -->
-    <section class="section transit-section">
-
-      <div class="section-heading">
-
-        <div>
-          <div class="section-label">
-            SKYTRAIN
-          </div>
-
-          <h1 class="station-name" id="station-name">
-            Patterson
-          </h1>
-
-          <div class="line-name">
-            Expo Line
-          </div>
+        <div id="date" class="date">
+          —
         </div>
 
-        <button
-          id="station-button"
-          class="station-button"
-          type="button"
-          aria-label="Change SkyTrain station"
-        >
-          CHANGE
-        </button>
-
-      </div>
+      </section>
 
 
-      <div class="platform-grid">
+      <!-- WEATHER -->
 
-        <!-- PLATFORM 1 -->
+      <section class="weather-panel">
 
-        <div class="platform">
+        <div class="label">
+          WEATHER
+        </div>
 
-          <div class="platform-header">
-            <span>PLATFORM 1</span>
-            <span class="platform-direction">
-              TO WATERFRONT
-            </span>
+        <div class="weather-content">
+
+          <div id="temperature" class="temperature">
+            --°
           </div>
 
-          <div id="platform-1" class="train-list">
+          <div class="weather-meta">
 
-            <div class="train-row loading-row">
-              <span>Loading arrivals</span>
-              <span>—</span>
+            <div
+              id="weather-condition"
+              class="weather-condition"
+            >
+              Loading
+            </div>
+
+            <div class="weather-detail">
+              FEELS
+              <span id="feels-like">--°</span>
+            </div>
+
+            <div class="weather-detail">
+              <span id="weather-high">H --°</span>
+              <span class="weather-separator">/</span>
+              <span id="weather-low">L --°</span>
             </div>
 
           </div>
 
         </div>
 
+      </section>
 
-        <!-- PLATFORM 2 -->
 
-        <div class="platform">
+      <!-- SKYTRAIN -->
 
-          <div class="platform-header">
-            <span>PLATFORM 2</span>
-            <span class="platform-direction">
-              EASTBOUND
-            </span>
-          </div>
+      <section class="transit-panel">
 
-          <div id="platform-2" class="train-list">
+        <div class="transit-heading">
 
-            <div class="train-row loading-row">
-              <span>Loading arrivals</span>
-              <span>—</span>
+          <div>
+
+            <div class="label">
+              SKYTRAIN
+            </div>
+
+            <div class="station-line">
+
+              <h1 id="station-name">
+                Patterson
+              </h1>
+
+              <span class="line-name">
+                EXPO LINE
+              </span>
+
             </div>
 
           </div>
 
+
+          <button
+            id="station-button"
+            class="change-button"
+            type="button"
+          >
+            CHANGE
+          </button>
+
         </div>
 
-      </div>
+
+        <div class="platforms">
+
+          <!-- PLATFORM 1 -->
+
+          <section class="platform">
+
+            <div class="platform-heading">
+
+              <span>
+                PLATFORM 1
+              </span>
+
+              <span class="platform-note">
+                WESTBOUND
+              </span>
+
+            </div>
+
+            <div
+              id="platform-1"
+              class="train-list"
+            >
+
+              <div class="train-row muted">
+                <span>Loading arrivals</span>
+                <span>—</span>
+              </div>
+
+            </div>
+
+          </section>
 
 
-      <div id="transit-status" class="data-status"></div>
+          <!-- PLATFORM 2 -->
+
+          <section class="platform">
+
+            <div class="platform-heading">
+
+              <span>
+                PLATFORM 2
+              </span>
+
+              <span class="platform-note">
+                EASTBOUND
+              </span>
+
+            </div>
+
+            <div
+              id="platform-2"
+              class="train-list"
+            >
+
+              <div class="train-row muted">
+                <span>Loading arrivals</span>
+                <span>—</span>
+              </div>
+
+            </div>
+
+          </section>
+
+        </div>
+
+
+        <div
+          id="transit-status"
+          class="transit-status"
+        ></div>
+
+      </section>
 
     </section>
 
 
     <!-- NEWS -->
-    <section class="section news-section">
 
-      <div class="section-label">
-        LATEST
+    <section class="news-panel">
+
+      <div class="news-heading">
+
+        <span class="label">
+          LATEST
+        </span>
+
+        <span
+          id="news-updated"
+          class="news-updated"
+        ></span>
+
       </div>
 
-      <div id="news-list" class="news-list">
 
-        <div class="news-row">
-          <span class="news-source">NEWS</span>
-          <span>Loading headlines</span>
+      <div
+        id="news-list"
+        class="news-list"
+      >
+
+        <div class="news-item">
+
+          <span class="news-source">
+            NEWS
+          </span>
+
+          <span class="news-title muted">
+            Loading headlines
+          </span>
+
         </div>
 
       </div>
@@ -182,10 +252,14 @@
   </main>
 
 
-  <!-- NEWS TICKER -->
+  <!-- BOTTOM NEWS TICKER -->
+
   <footer class="ticker">
 
-    <div class="ticker-track" id="ticker-track">
+    <div
+      id="ticker-track"
+      class="ticker-track"
+    >
       <span>LOADING LATEST NEWS</span>
     </div>
 
@@ -193,30 +267,45 @@
 
 
   <!-- STATION SELECTOR -->
+
   <div
     id="station-modal"
-    class="modal"
+    class="station-modal"
     aria-hidden="true"
   >
 
-    <div class="modal-backdrop"></div>
+    <button
+      class="station-backdrop"
+      type="button"
+      aria-label="Close station selector"
+    ></button>
 
-    <div
-      class="station-panel"
+
+    <section
+      class="station-sheet"
       role="dialog"
       aria-modal="true"
-      aria-labelledby="station-dialog-title"
+      aria-labelledby="station-title"
     >
 
-      <div class="station-panel-header">
+      <div class="station-sheet-header">
 
-        <h2 id="station-dialog-title">
-          Station
-        </h2>
+        <div>
+
+          <div class="label">
+            SKYTRAIN
+          </div>
+
+          <h2 id="station-title">
+            Choose station
+          </h2>
+
+        </div>
+
 
         <button
           id="station-close"
-          class="close-button"
+          class="change-button"
           type="button"
         >
           CLOSE
@@ -224,9 +313,13 @@
 
       </div>
 
-      <div id="station-list" class="station-list"></div>
 
-    </div>
+      <div
+        id="station-list"
+        class="station-list"
+      ></div>
+
+    </section>
 
   </div>
 
