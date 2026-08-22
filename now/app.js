@@ -1,144 +1,60 @@
-const DEFAULT_STATION = "patterson";
-
-
-const STATIONS = [
-
-  {
-    id: "waterfront",
-    name: "Waterfront"
-  },
-
-  {
-    id: "burrard",
-    name: "Burrard"
-  },
-
-  {
-    id: "granville",
-    name: "Granville"
-  },
-
-  {
-    id: "stadium-chinatown",
-    name: "Stadium–Chinatown"
-  },
-
-  {
-    id: "main-street-science-world",
-    name: "Main Street–Science World"
-  },
-
-  {
-    id: "commercial-broadway",
-    name: "Commercial–Broadway"
-  },
-
-  {
-    id: "nanaimo",
-    name: "Nanaimo"
-  },
-
-  {
-    id: "29th-avenue",
-    name: "29th Avenue"
-  },
-
-  {
-    id: "joyce-collingwood",
-    name: "Joyce–Collingwood"
-  },
-
-  {
-    id: "patterson",
-    name: "Patterson"
-  },
-
-  {
-    id: "metrotown",
-    name: "Metrotown"
-  },
-
-  {
-    id: "royal-oak",
-    name: "Royal Oak"
-  }
-
-];
-
-
-let currentStation =
-  localStorage.getItem(
-    "denn-now-station"
-  ) || DEFAULT_STATION;
-
-
-
-/* =========================================================
+/* =========================================
    CLOCK
-========================================================= */
+========================================= */
 
 function updateClock() {
 
-  const now =
-    new Date();
-
-
-  const time =
-    new Intl.DateTimeFormat(
-      "en-CA",
-      {
-        timeZone:
-          "America/Vancouver",
-
-        hour:
-          "2-digit",
-
-        minute:
-          "2-digit",
-
-        hour12:
-          false
-      }
-    );
-
-
-  const date =
-    new Intl.DateTimeFormat(
-      "en-CA",
-      {
-        timeZone:
-          "America/Vancouver",
-
-        weekday:
-          "long",
-
-        month:
-          "long",
-
-        day:
-          "numeric"
-      }
-    );
+  const now = new Date();
 
 
   document
     .getElementById("clock")
     .textContent =
-      time.format(now);
+      new Intl.DateTimeFormat(
+        "en-CA",
+        {
+          timeZone:
+            "America/Vancouver",
+
+          hour:
+            "2-digit",
+
+          minute:
+            "2-digit",
+
+          hour12:
+            false
+        }
+      )
+      .format(now);
 
 
   document
     .getElementById("date")
     .textContent =
-      date
-        .format(now)
-        .toUpperCase();
+      new Intl.DateTimeFormat(
+        "en-CA",
+        {
+          timeZone:
+            "America/Vancouver",
+
+          weekday:
+            "long",
+
+          month:
+            "long",
+
+          day:
+            "numeric"
+        }
+      )
+      .format(now)
+      .toUpperCase();
 
 }
 
 
 updateClock();
-
 
 setInterval(
   updateClock,
@@ -147,34 +63,35 @@ setInterval(
 
 
 
-/* =========================================================
+/* =========================================
    WEATHER
-========================================================= */
+   Direct Open-Meteo request.
+   No API key.
+========================================= */
 
 async function loadWeather() {
 
-  const condition =
-    document.getElementById(
-      "weather-condition"
-    );
+  const endpoint =
+    "https://api.open-meteo.com/v1/forecast" +
+    "?latitude=49.2827" +
+    "&longitude=-123.1207" +
+    "&current=temperature_2m,apparent_temperature,weather_code" +
+    "&daily=temperature_2m_max,temperature_2m_min" +
+    "&temperature_unit=celsius" +
+    "&timezone=America%2FVancouver" +
+    "&forecast_days=1";
 
 
   try {
 
     const response =
-      await fetch(
-        "/api/weather",
-        {
-          cache:
-            "no-store"
-        }
-      );
+      await fetch(endpoint);
 
 
     if (!response.ok) {
 
       throw new Error(
-        `Weather API ${response.status}`
+        "Weather request failed"
       );
 
     }
@@ -184,62 +101,138 @@ async function loadWeather() {
       await response.json();
 
 
+    const current =
+      data.current;
+
+
+    const daily =
+      data.daily;
+
+
     document
       .getElementById(
         "temperature"
       )
       .textContent =
-        `${Math.round(data.temperature)}°`;
-
-
-    condition.textContent =
-      data.condition ||
-      "Unknown";
+        `${Math.round(
+          current.temperature_2m
+        )}°`;
 
 
     document
       .getElementById(
-        "feels-like"
+        "condition"
       )
       .textContent =
-        `${Math.round(data.feelsLike)}°`;
+        weatherDescription(
+          current.weather_code
+        );
 
 
     document
       .getElementById(
-        "weather-high"
+        "feels"
       )
       .textContent =
-        `H ${Math.round(data.high)}°`;
+        `${Math.round(
+          current.apparent_temperature
+        )}°`;
 
 
     document
       .getElementById(
-        "weather-low"
+        "high"
       )
       .textContent =
-        `L ${Math.round(data.low)}°`;
+        `${Math.round(
+          daily.temperature_2m_max[0]
+        )}°`;
+
+
+    document
+      .getElementById(
+        "low"
+      )
+      .textContent =
+        `${Math.round(
+          daily.temperature_2m_min[0]
+        )}°`;
 
   }
 
   catch (error) {
 
     console.error(
-      "Weather:",
+      "Weather error:",
       error
     );
 
 
-    condition.textContent =
-      "Unavailable";
+    document
+      .getElementById(
+        "condition"
+      )
+      .textContent =
+        "—";
 
   }
 
 }
 
 
-loadWeather();
+function weatherDescription(code) {
 
+  const descriptions = {
+
+    0: "CLEAR",
+
+    1: "MOSTLY CLEAR",
+    2: "PARTLY CLOUDY",
+    3: "CLOUDY",
+
+    45: "FOG",
+    48: "FOG",
+
+    51: "LIGHT DRIZZLE",
+    53: "DRIZZLE",
+    55: "HEAVY DRIZZLE",
+
+    56: "FREEZING DRIZZLE",
+    57: "FREEZING DRIZZLE",
+
+    61: "LIGHT RAIN",
+    63: "RAIN",
+    65: "HEAVY RAIN",
+
+    66: "FREEZING RAIN",
+    67: "FREEZING RAIN",
+
+    71: "LIGHT SNOW",
+    73: "SNOW",
+    75: "HEAVY SNOW",
+
+    77: "SNOW",
+
+    80: "RAIN SHOWERS",
+    81: "RAIN SHOWERS",
+    82: "HEAVY SHOWERS",
+
+    85: "SNOW SHOWERS",
+    86: "HEAVY SNOW",
+
+    95: "THUNDERSTORM",
+    96: "THUNDERSTORM",
+    99: "THUNDERSTORM"
+
+  };
+
+
+  return descriptions[code] || "—";
+
+}
+
+
+loadWeather();
 
 setInterval(
   loadWeather,
@@ -248,66 +241,37 @@ setInterval(
 
 
 
-/* =========================================================
+/* =========================================
    TRANSIT
-========================================================= */
+
+   Calls your server-side endpoint.
+   No fake data if endpoint is unavailable.
+========================================= */
 
 async function loadTransit() {
-
-  const platform1 =
-    document.getElementById(
-      "platform-1"
-    );
-
-
-  const platform2 =
-    document.getElementById(
-      "platform-2"
-    );
-
-
-  const status =
-    document.getElementById(
-      "transit-status"
-    );
-
 
   try {
 
     const response =
       await fetch(
-        `/api/transit?station=${encodeURIComponent(currentStation)}`,
+        "/api/transit?station=patterson",
         {
-          cache:
-            "no-store"
+          cache: "no-store"
         }
       );
-
-
-    const data =
-      await response.json();
 
 
     if (!response.ok) {
 
       throw new Error(
-        data.message ||
-        `Transit API ${response.status}`
+        "Transit unavailable"
       );
 
     }
 
 
-    if (data.station?.name) {
-
-      document
-        .getElementById(
-          "station-name"
-        )
-        .textContent =
-          data.station.name;
-
-    }
+    const data =
+      await response.json();
 
 
     const platforms =
@@ -316,44 +280,38 @@ async function loadTransit() {
         : [];
 
 
-    const first =
+    const p1 =
       platforms.find(
-        item =>
-          Number(item.number) === 1
-      ) ||
-      platforms[0];
+        p => Number(p.number) === 1
+      ) || platforms[0];
 
 
-    const second =
+    const p2 =
       platforms.find(
-        item =>
-          Number(item.number) === 2
-      ) ||
-      platforms[1];
+        p => Number(p.number) === 2
+      ) || platforms[1];
 
 
     renderPlatform(
-      platform1,
-      first?.trains || []
+      "platform-1",
+      p1?.trains || []
     );
 
 
     renderPlatform(
-      platform2,
-      second?.trains || []
+      "platform-2",
+      p2?.trains || []
     );
 
 
     if (data.updatedAt) {
 
-      status.textContent =
-        `UPDATED ${formatTime(data.updatedAt)}`;
-
-    }
-
-    else {
-
-      status.textContent = "";
+      document
+        .getElementById(
+          "transit-updated"
+        )
+        .textContent =
+          "LIVE";
 
     }
 
@@ -361,24 +319,10 @@ async function loadTransit() {
 
   catch (error) {
 
-    console.error(
+    console.warn(
       "Transit:",
       error
     );
-
-
-    renderUnavailablePlatform(
-      platform1
-    );
-
-
-    renderUnavailablePlatform(
-      platform2
-    );
-
-
-    status.textContent =
-      "REALTIME CONNECTION UNAVAILABLE";
 
   }
 
@@ -386,169 +330,81 @@ async function loadTransit() {
 
 
 function renderPlatform(
-  container,
+  id,
   trains
 ) {
 
-  if (
-    !Array.isArray(trains) ||
-    trains.length === 0
-  ) {
-
-    container.innerHTML =
-      `
-        <div class="train-row muted">
-          <span>No upcoming trains</span>
-          <span>—</span>
-        </div>
-      `;
-
-    return;
-
-  }
+  const element =
+    document.getElementById(id);
 
 
-  container.innerHTML =
+  const rows =
     trains
       .slice(0, 4)
-      .map(
-        train => {
+      .map(train => {
 
-          const minutes =
-            Number(
-              train.arrivalMinutes
-            );
-
-
-          let time;
+        const minutes =
+          Number(
+            train.arrivalMinutes
+          );
 
 
-          if (
-            Number.isFinite(minutes) &&
+        let eta = "—";
+
+
+        if (
+          Number.isFinite(minutes)
+        ) {
+
+          eta =
             minutes <= 0
-          ) {
-
-            time = "NOW";
-
-          }
-
-          else if (
-            minutes === 1
-          ) {
-
-            time = "1 MIN";
-
-          }
-
-          else if (
-            Number.isFinite(minutes)
-          ) {
-
-            time =
-              `${minutes} MIN`;
-
-          }
-
-          else {
-
-            time = "—";
-
-          }
-
-
-          return `
-            <div class="train-row">
-
-              <span class="train-destination">
-                ${escapeHTML(
-                  train.destination ||
-                  "Train"
-                )}
-              </span>
-
-              <span
-                class="train-time ${
-                  minutes <= 0
-                    ? "now"
-                    : ""
-                }"
-              >
-                ${time}
-              </span>
-
-            </div>
-          `;
+              ? "NOW"
+              : `${minutes} MIN`;
 
         }
-      )
-      .join("");
-
-}
 
 
-function renderUnavailablePlatform(
-  container
-) {
+        return `
+          <div class="arrival">
 
-  container.innerHTML =
-    `
-      <div class="train-row muted">
+            <span>
+              ${escapeHTML(
+                train.destination ||
+                "—"
+              )}
+            </span>
 
-        <span>
-          Live arrivals unavailable
-        </span>
+            <span>
+              ${eta}
+            </span>
 
-        <span>
-          —
-        </span>
+          </div>
+        `;
 
-      </div>
-    `;
-
-}
+      });
 
 
-function formatTime(
-  value
-) {
-
-  const date =
-    new Date(value);
-
-
-  if (
-    Number.isNaN(
-      date.getTime()
-    )
+  while (
+    rows.length < 4
   ) {
 
-    return "";
+    rows.push(`
+      <div class="arrival placeholder">
+        <span>—</span>
+        <span>—</span>
+      </div>
+    `);
 
   }
 
 
-  return new Intl.DateTimeFormat(
-    "en-CA",
-    {
-      timeZone:
-        "America/Vancouver",
-
-      hour:
-        "2-digit",
-
-      minute:
-        "2-digit",
-
-      hour12:
-        false
-    }
-  ).format(date);
+  element.innerHTML =
+    rows.join("");
 
 }
 
 
 loadTransit();
-
 
 setInterval(
   loadTransit,
@@ -557,9 +413,12 @@ setInterval(
 
 
 
-/* =========================================================
+/* =========================================
    NEWS
-========================================================= */
+
+   Keeps your /api/news endpoint.
+   Silent fallback.
+========================================= */
 
 async function loadNews() {
 
@@ -578,26 +437,23 @@ async function loadNews() {
     if (!response.ok) {
 
       throw new Error(
-        `News API ${response.status}`
+        "News unavailable"
       );
 
     }
 
 
-    const data =
+    const news =
       await response.json();
 
 
-    const news =
-      Array.isArray(data)
-        ? data
-        : [];
-
-
-    if (!news.length) {
+    if (
+      !Array.isArray(news) ||
+      !news.length
+    ) {
 
       throw new Error(
-        "No headlines returned"
+        "Empty news"
       );
 
     }
@@ -607,182 +463,105 @@ async function loadNews() {
 
     renderTicker(news);
 
-
-    document
-      .getElementById(
-        "news-updated"
-      )
-      .textContent =
-        `UPDATED ${formatTime(
-          new Date()
-        )}`;
-
   }
 
   catch (error) {
 
-    console.error(
+    console.warn(
       "News:",
       error
     );
-
-
-    document
-      .getElementById(
-        "news-list"
-      )
-      .innerHTML =
-        `
-          <div class="news-item">
-
-            <span class="news-source">
-              NEWS
-            </span>
-
-            <span class="news-title muted">
-              Headlines unavailable
-            </span>
-
-          </div>
-        `;
-
-
-    document
-      .getElementById(
-        "ticker-track"
-      )
-      .innerHTML =
-        `
-          <span>
-            NEWS FEED UNAVAILABLE
-          </span>
-        `;
 
   }
 
 }
 
 
-function renderNews(
-  news
-) {
+function renderNews(news) {
 
-  const container =
-    document.getElementById(
-      "news-list"
-    );
+  document
+    .getElementById("news")
+    .innerHTML =
+      news
+        .slice(0, 4)
+        .map(item => `
 
+          <div class="headline">
 
-  /*
-    Landscape display only needs
-    three visible headlines.
-  */
+            <span class="headline-source">
+              ${escapeHTML(
+                item.source ||
+                "NEWS"
+              )}
+            </span>
 
-  container.innerHTML =
-    news
-      .slice(0, 3)
-      .map(
-        item => {
+            <span class="headline-title">
 
-          const title =
-            escapeHTML(
-              item.title || ""
-            );
+              ${
+                item.url
 
+                  ? `
+                    <a
+                      href="${escapeHTML(item.url)}"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      ${escapeHTML(
+                        item.title
+                      )}
+                    </a>
+                  `
 
-          const source =
-            escapeHTML(
-              item.source || "NEWS"
-            );
+                  : escapeHTML(
+                      item.title
+                    )
+              }
 
+            </span>
 
-          const url =
-            safeURL(
-              item.url
-            );
+          </div>
 
-
-          return `
-            <div class="news-item">
-
-              <span class="news-source">
-                ${source}
-              </span>
-
-              <span class="news-title">
-
-                ${
-                  url
-                    ? `
-                      <a
-                        href="${escapeHTML(url)}"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        ${title}
-                      </a>
-                    `
-                    : title
-                }
-
-              </span>
-
-            </div>
-          `;
-
-        }
-      )
-      .join("");
+        `)
+        .join("");
 
 }
 
 
-function renderTicker(
-  news
-) {
+function renderTicker(news) {
 
-  const track =
-    document.getElementById(
-      "ticker-track"
-    );
-
-
-  const headlines =
+  const sequence =
     news
       .slice(0, 12)
-      .map(
-        item => `
-          <span>
-            ${escapeHTML(
-              item.source ||
-              "NEWS"
-            )}
-            ·
-            ${escapeHTML(
-              item.title ||
-              ""
-            )}
-            &nbsp;&nbsp; →
-          </span>
-        `
-      )
+      .map(item => `
+
+        <span>
+          ${escapeHTML(
+            item.source ||
+            "NEWS"
+          )}
+          ·
+          ${escapeHTML(
+            item.title
+          )}
+          &nbsp;&nbsp; →
+        </span>
+
+      `)
       .join("");
 
 
-  /*
-    Duplicate the sequence for
-    continuous scrolling.
-  */
-
-  track.innerHTML =
-    headlines +
-    headlines;
+  document
+    .getElementById(
+      "ticker"
+    )
+    .innerHTML =
+      sequence +
+      sequence;
 
 }
 
 
 loadNews();
-
 
 setInterval(
   loadNews,
@@ -791,307 +570,37 @@ setInterval(
 
 
 
-/* =========================================================
-   STATION SELECTOR
-========================================================= */
-
-const modal =
-  document.getElementById(
-    "station-modal"
-  );
-
-
-const stationList =
-  document.getElementById(
-    "station-list"
-  );
-
-
-function renderStations() {
-
-  stationList.innerHTML =
-    STATIONS
-      .map(
-        station => `
-          <button
-            class="station-option ${
-              station.id ===
-              currentStation
-                ? "active"
-                : ""
-            }"
-            type="button"
-            data-station="${escapeHTML(
-              station.id
-            )}"
-          >
-            <span>
-              ${escapeHTML(
-                station.name
-              )}
-            </span>
-          </button>
-        `
-      )
-      .join("");
-
-
-  stationList
-    .querySelectorAll(
-      ".station-option"
-    )
-    .forEach(
-      button => {
-
-        button.addEventListener(
-          "click",
-          () => {
-
-            const selected =
-              button.dataset.station;
-
-
-            const station =
-              STATIONS.find(
-                item =>
-                  item.id ===
-                  selected
-              );
-
-
-            if (!station) {
-              return;
-            }
-
-
-            currentStation =
-              station.id;
-
-
-            localStorage.setItem(
-              "denn-now-station",
-              currentStation
-            );
-
-
-            document
-              .getElementById(
-                "station-name"
-              )
-              .textContent =
-                station.name;
-
-
-            closeStationModal();
-
-
-            setTransitLoading();
-
-
-            loadTransit();
-
-          }
-        );
-
-      }
-    );
-
-}
-
-
-function setTransitLoading() {
-
-  const loading =
-    `
-      <div class="train-row muted">
-
-        <span>
-          Loading arrivals
-        </span>
-
-        <span>
-          —
-        </span>
-
-      </div>
-    `;
-
-
-  document
-    .getElementById(
-      "platform-1"
-    )
-    .innerHTML =
-      loading;
-
-
-  document
-    .getElementById(
-      "platform-2"
-    )
-    .innerHTML =
-      loading;
-
-
-  document
-    .getElementById(
-      "transit-status"
-    )
-    .textContent =
-      "";
-
-}
-
-
-function openStationModal() {
-
-  renderStations();
-
-
-  modal.classList.add(
-    "open"
-  );
-
-
-  modal.setAttribute(
-    "aria-hidden",
-    "false"
-  );
-
-}
-
-
-function closeStationModal() {
-
-  modal.classList.remove(
-    "open"
-  );
-
-
-  modal.setAttribute(
-    "aria-hidden",
-    "true"
-  );
-
-}
-
-
-document
-  .getElementById(
-    "station-button"
-  )
-  .addEventListener(
-    "click",
-    openStationModal
-  );
-
-
-document
-  .getElementById(
-    "station-close"
-  )
-  .addEventListener(
-    "click",
-    closeStationModal
-  );
-
-
-document
-  .querySelector(
-    ".station-backdrop"
-  )
-  .addEventListener(
-    "click",
-    closeStationModal
-  );
-
-
-document.addEventListener(
-  "keydown",
-  event => {
-
-    if (
-      event.key === "Escape" &&
-      modal.classList.contains(
-        "open"
-      )
-    ) {
-
-      closeStationModal();
-
-    }
-
-  }
-);
-
-
-
-/* =========================================================
-   HELPERS
-========================================================= */
-
-function escapeHTML(
-  value = ""
-) {
+/* =========================================
+   ESCAPE
+========================================= */
+
+function escapeHTML(value = "") {
 
   return String(value)
+
     .replaceAll(
       "&",
       "&amp;"
     )
+
     .replaceAll(
       "<",
       "&lt;"
     )
+
     .replaceAll(
       ">",
       "&gt;"
     )
+
     .replaceAll(
       '"',
       "&quot;"
     )
+
     .replaceAll(
       "'",
       "&#039;"
     );
-
-}
-
-
-function safeURL(
-  value
-) {
-
-  if (!value) {
-    return "";
-  }
-
-
-  try {
-
-    const url =
-      new URL(value);
-
-
-    if (
-      url.protocol !== "http:" &&
-      url.protocol !== "https:"
-    ) {
-
-      return "";
-
-    }
-
-
-    return url.href;
-
-  }
-
-  catch {
-
-    return "";
-
-  }
 
 }
