@@ -1,104 +1,144 @@
 const DEFAULT_STATION = "patterson";
 
+
 const STATIONS = [
+
   {
     id: "waterfront",
     name: "Waterfront"
   },
+
   {
     id: "burrard",
     name: "Burrard"
   },
+
   {
     id: "granville",
     name: "Granville"
   },
+
   {
     id: "stadium-chinatown",
     name: "Stadium–Chinatown"
   },
+
   {
     id: "main-street-science-world",
     name: "Main Street–Science World"
   },
+
   {
     id: "commercial-broadway",
     name: "Commercial–Broadway"
   },
+
   {
     id: "nanaimo",
     name: "Nanaimo"
   },
+
   {
     id: "29th-avenue",
     name: "29th Avenue"
   },
+
   {
     id: "joyce-collingwood",
     name: "Joyce–Collingwood"
   },
+
   {
     id: "patterson",
     name: "Patterson"
   },
+
   {
     id: "metrotown",
     name: "Metrotown"
   },
+
   {
     id: "royal-oak",
     name: "Royal Oak"
   }
+
 ];
 
 
 let currentStation =
-  localStorage.getItem("denn-station") ||
-  DEFAULT_STATION;
+  localStorage.getItem(
+    "denn-now-station"
+  ) || DEFAULT_STATION;
 
 
-/* ---------------------------------------
+
+/* =========================================================
    CLOCK
---------------------------------------- */
+========================================================= */
 
 function updateClock() {
 
-  const now = new Date();
+  const now =
+    new Date();
 
-  const timeFormatter =
+
+  const time =
     new Intl.DateTimeFormat(
       "en-CA",
       {
-        timeZone: "America/Vancouver",
-        hour: "2-digit",
-        minute: "2-digit",
-        hour12: false
+        timeZone:
+          "America/Vancouver",
+
+        hour:
+          "2-digit",
+
+        minute:
+          "2-digit",
+
+        hour12:
+          false
       }
     );
 
-  const dateFormatter =
+
+  const date =
     new Intl.DateTimeFormat(
       "en-CA",
       {
-        timeZone: "America/Vancouver",
-        weekday: "long",
-        day: "numeric",
-        month: "long"
+        timeZone:
+          "America/Vancouver",
+
+        weekday:
+          "long",
+
+        month:
+          "long",
+
+        day:
+          "numeric"
       }
     );
 
-  document.getElementById("clock").textContent =
-    timeFormatter.format(now);
 
-  document.getElementById("date").textContent =
-    dateFormatter
-      .format(now)
-      .toUpperCase();
+  document
+    .getElementById("clock")
+    .textContent =
+      time.format(now);
+
+
+  document
+    .getElementById("date")
+    .textContent =
+      date
+        .format(now)
+        .toUpperCase();
 
 }
 
 
 updateClock();
+
 
 setInterval(
   updateClock,
@@ -106,11 +146,18 @@ setInterval(
 );
 
 
-/* ---------------------------------------
+
+/* =========================================================
    WEATHER
---------------------------------------- */
+========================================================= */
 
 async function loadWeather() {
+
+  const condition =
+    document.getElementById(
+      "weather-condition"
+    );
+
 
   try {
 
@@ -118,57 +165,73 @@ async function loadWeather() {
       await fetch(
         "/api/weather",
         {
-          cache: "no-store"
+          cache:
+            "no-store"
         }
       );
 
+
     if (!response.ok) {
-      throw new Error("Weather request failed");
+
+      throw new Error(
+        `Weather API ${response.status}`
+      );
+
     }
 
-    const weather =
+
+    const data =
       await response.json();
 
 
-    document.getElementById(
-      "temperature"
-    ).textContent =
-      `${Math.round(weather.temperature)}°`;
+    document
+      .getElementById(
+        "temperature"
+      )
+      .textContent =
+        `${Math.round(data.temperature)}°`;
 
 
-    document.getElementById(
-      "weather-condition"
-    ).textContent =
-      weather.condition;
+    condition.textContent =
+      data.condition ||
+      "Unknown";
 
 
-    document.getElementById(
-      "feels-like"
-    ).textContent =
-      `${Math.round(weather.feelsLike)}°`;
+    document
+      .getElementById(
+        "feels-like"
+      )
+      .textContent =
+        `${Math.round(data.feelsLike)}°`;
 
 
-    document.getElementById(
-      "weather-high"
-    ).textContent =
-      `H ${Math.round(weather.high)}°`;
+    document
+      .getElementById(
+        "weather-high"
+      )
+      .textContent =
+        `H ${Math.round(data.high)}°`;
 
 
-    document.getElementById(
-      "weather-low"
-    ).textContent =
-      `L ${Math.round(weather.low)}°`;
+    document
+      .getElementById(
+        "weather-low"
+      )
+      .textContent =
+        `L ${Math.round(data.low)}°`;
 
   }
 
   catch (error) {
 
-    console.error(error);
+    console.error(
+      "Weather:",
+      error
+    );
 
-    document.getElementById(
-      "weather-condition"
-    ).textContent =
-      "Weather unavailable";
+
+    condition.textContent =
+      "Unavailable";
 
   }
 
@@ -177,15 +240,17 @@ async function loadWeather() {
 
 loadWeather();
 
+
 setInterval(
   loadWeather,
   10 * 60 * 1000
 );
 
 
-/* ---------------------------------------
+
+/* =========================================================
    TRANSIT
---------------------------------------- */
+========================================================= */
 
 async function loadTransit() {
 
@@ -194,10 +259,12 @@ async function loadTransit() {
       "platform-1"
     );
 
+
   const platform2 =
     document.getElementById(
       "platform-2"
     );
+
 
   const status =
     document.getElementById(
@@ -211,7 +278,8 @@ async function loadTransit() {
       await fetch(
         `/api/transit?station=${encodeURIComponent(currentStation)}`,
         {
-          cache: "no-store"
+          cache:
+            "no-store"
         }
       );
 
@@ -224,57 +292,93 @@ async function loadTransit() {
 
       throw new Error(
         data.message ||
-        "Transit unavailable"
+        `Transit API ${response.status}`
       );
 
     }
 
 
-    document.getElementById(
-      "station-name"
-    ).textContent =
-      data.station.name;
+    if (data.station?.name) {
+
+      document
+        .getElementById(
+          "station-name"
+        )
+        .textContent =
+          data.station.name;
+
+    }
+
+
+    const platforms =
+      Array.isArray(data.platforms)
+        ? data.platforms
+        : [];
+
+
+    const first =
+      platforms.find(
+        item =>
+          Number(item.number) === 1
+      ) ||
+      platforms[0];
+
+
+    const second =
+      platforms.find(
+        item =>
+          Number(item.number) === 2
+      ) ||
+      platforms[1];
 
 
     renderPlatform(
       platform1,
-      data.platforms?.[0]?.trains || []
+      first?.trains || []
     );
 
 
     renderPlatform(
       platform2,
-      data.platforms?.[1]?.trains || []
+      second?.trains || []
     );
 
 
-    status.textContent =
-      data.updatedAt
-        ? `Updated ${formatUpdateTime(data.updatedAt)}`
-        : "";
+    if (data.updatedAt) {
+
+      status.textContent =
+        `UPDATED ${formatTime(data.updatedAt)}`;
+
+    }
+
+    else {
+
+      status.textContent = "";
+
+    }
 
   }
 
   catch (error) {
 
-    console.error(error);
+    console.error(
+      "Transit:",
+      error
+    );
 
-    const unavailable =
-      `
-        <div class="train-row loading-row">
-          <span>Live arrivals unavailable</span>
-          <span>—</span>
-        </div>
-      `;
 
-    platform1.innerHTML =
-      unavailable;
+    renderUnavailablePlatform(
+      platform1
+    );
 
-    platform2.innerHTML =
-      unavailable;
+
+    renderUnavailablePlatform(
+      platform2
+    );
+
 
     status.textContent =
-      "Waiting for TransLink realtime connection.";
+      "REALTIME CONNECTION UNAVAILABLE";
 
   }
 
@@ -282,15 +386,18 @@ async function loadTransit() {
 
 
 function renderPlatform(
-  element,
+  container,
   trains
 ) {
 
-  if (!trains.length) {
+  if (
+    !Array.isArray(trains) ||
+    trains.length === 0
+  ) {
 
-    element.innerHTML =
+    container.innerHTML =
       `
-        <div class="train-row loading-row">
+        <div class="train-row muted">
           <span>No upcoming trains</span>
           <span>—</span>
         </div>
@@ -301,7 +408,7 @@ function renderPlatform(
   }
 
 
-  element.innerHTML =
+  container.innerHTML =
     trains
       .slice(0, 4)
       .map(
@@ -313,19 +420,39 @@ function renderPlatform(
             );
 
 
-          let timeLabel;
+          let time;
 
-          if (minutes <= 0) {
-            timeLabel = "NOW";
+
+          if (
+            Number.isFinite(minutes) &&
+            minutes <= 0
+          ) {
+
+            time = "NOW";
+
           }
 
-          else if (minutes === 1) {
-            timeLabel = "1 MIN";
+          else if (
+            minutes === 1
+          ) {
+
+            time = "1 MIN";
+
+          }
+
+          else if (
+            Number.isFinite(minutes)
+          ) {
+
+            time =
+              `${minutes} MIN`;
+
           }
 
           else {
-            timeLabel =
-              `${minutes} MIN`;
+
+            time = "—";
+
           }
 
 
@@ -333,11 +460,20 @@ function renderPlatform(
             <div class="train-row">
 
               <span class="train-destination">
-                ${escapeHTML(train.destination)}
+                ${escapeHTML(
+                  train.destination ||
+                  "Train"
+                )}
               </span>
 
-              <span class="train-time ${minutes <= 0 ? "now" : ""}">
-                ${timeLabel}
+              <span
+                class="train-time ${
+                  minutes <= 0
+                    ? "now"
+                    : ""
+                }"
+              >
+                ${time}
               </span>
 
             </div>
@@ -350,24 +486,69 @@ function renderPlatform(
 }
 
 
-function formatUpdateTime(date) {
+function renderUnavailablePlatform(
+  container
+) {
+
+  container.innerHTML =
+    `
+      <div class="train-row muted">
+
+        <span>
+          Live arrivals unavailable
+        </span>
+
+        <span>
+          —
+        </span>
+
+      </div>
+    `;
+
+}
+
+
+function formatTime(
+  value
+) {
+
+  const date =
+    new Date(value);
+
+
+  if (
+    Number.isNaN(
+      date.getTime()
+    )
+  ) {
+
+    return "";
+
+  }
+
 
   return new Intl.DateTimeFormat(
     "en-CA",
     {
-      timeZone: "America/Vancouver",
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: false
+      timeZone:
+        "America/Vancouver",
+
+      hour:
+        "2-digit",
+
+      minute:
+        "2-digit",
+
+      hour12:
+        false
     }
-  ).format(
-    new Date(date)
-  );
+  ).format(date);
 
 }
 
 
 loadTransit();
+
 
 setInterval(
   loadTransit,
@@ -375,9 +556,10 @@ setInterval(
 );
 
 
-/* ---------------------------------------
+
+/* =========================================================
    NEWS
---------------------------------------- */
+========================================================= */
 
 async function loadNews() {
 
@@ -385,51 +567,105 @@ async function loadNews() {
 
     const response =
       await fetch(
-        "/api/news"
+        "/api/news",
+        {
+          cache:
+            "no-store"
+        }
       );
 
 
     if (!response.ok) {
+
       throw new Error(
-        "News request failed"
+        `News API ${response.status}`
       );
+
     }
 
 
-    const news =
+    const data =
       await response.json();
 
 
+    const news =
+      Array.isArray(data)
+        ? data
+        : [];
+
+
+    if (!news.length) {
+
+      throw new Error(
+        "No headlines returned"
+      );
+
+    }
+
+
     renderNews(news);
+
     renderTicker(news);
+
+
+    document
+      .getElementById(
+        "news-updated"
+      )
+      .textContent =
+        `UPDATED ${formatTime(
+          new Date()
+        )}`;
 
   }
 
   catch (error) {
 
-    console.error(error);
+    console.error(
+      "News:",
+      error
+    );
 
-    document.getElementById(
-      "news-list"
-    ).innerHTML =
-      `
-        <div class="news-row">
-          <span class="news-source">
-            NEWS
-          </span>
 
+    document
+      .getElementById(
+        "news-list"
+      )
+      .innerHTML =
+        `
+          <div class="news-item">
+
+            <span class="news-source">
+              NEWS
+            </span>
+
+            <span class="news-title muted">
+              Headlines unavailable
+            </span>
+
+          </div>
+        `;
+
+
+    document
+      .getElementById(
+        "ticker-track"
+      )
+      .innerHTML =
+        `
           <span>
-            Headlines unavailable
+            NEWS FEED UNAVAILABLE
           </span>
-        </div>
-      `;
+        `;
 
   }
 
 }
 
 
-function renderNews(news) {
+function renderNews(
+  news
+) {
 
   const container =
     document.getElementById(
@@ -437,34 +673,73 @@ function renderNews(news) {
     );
 
 
+  /*
+    Landscape display only needs
+    three visible headlines.
+  */
+
   container.innerHTML =
     news
-      .slice(0, 6)
+      .slice(0, 3)
       .map(
-        item => `
-          <div class="news-row">
+        item => {
 
-            <span class="news-source">
-              ${escapeHTML(item.source)}
-            </span>
+          const title =
+            escapeHTML(
+              item.title || ""
+            );
 
-            <a
-              href="${escapeAttribute(item.url)}"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              ${escapeHTML(item.title)}
-            </a>
 
-          </div>
-        `
+          const source =
+            escapeHTML(
+              item.source || "NEWS"
+            );
+
+
+          const url =
+            safeURL(
+              item.url
+            );
+
+
+          return `
+            <div class="news-item">
+
+              <span class="news-source">
+                ${source}
+              </span>
+
+              <span class="news-title">
+
+                ${
+                  url
+                    ? `
+                      <a
+                        href="${escapeHTML(url)}"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        ${title}
+                      </a>
+                    `
+                    : title
+                }
+
+              </span>
+
+            </div>
+          `;
+
+        }
       )
       .join("");
 
 }
 
 
-function renderTicker(news) {
+function renderTicker(
+  news
+) {
 
   const track =
     document.getElementById(
@@ -472,15 +747,21 @@ function renderTicker(news) {
     );
 
 
-  const items =
+  const headlines =
     news
-      .slice(0, 10)
+      .slice(0, 12)
       .map(
         item => `
           <span>
-            ${escapeHTML(item.source)}
+            ${escapeHTML(
+              item.source ||
+              "NEWS"
+            )}
             ·
-            ${escapeHTML(item.title)}
+            ${escapeHTML(
+              item.title ||
+              ""
+            )}
             &nbsp;&nbsp; →
           </span>
         `
@@ -489,17 +770,19 @@ function renderTicker(news) {
 
 
   /*
-    Duplicate content so CSS animation
-    can loop continuously.
+    Duplicate the sequence for
+    continuous scrolling.
   */
 
   track.innerHTML =
-    items + items;
+    headlines +
+    headlines;
 
 }
 
 
 loadNews();
+
 
 setInterval(
   loadNews,
@@ -507,9 +790,10 @@ setInterval(
 );
 
 
-/* ---------------------------------------
+
+/* =========================================================
    STATION SELECTOR
---------------------------------------- */
+========================================================= */
 
 const modal =
   document.getElementById(
@@ -531,21 +815,28 @@ function renderStations() {
         station => `
           <button
             class="station-option ${
-              station.id === currentStation
+              station.id ===
+              currentStation
                 ? "active"
                 : ""
             }"
             type="button"
-            data-station="${station.id}"
+            data-station="${escapeHTML(
+              station.id
+            )}"
           >
-            ${station.name}
+            <span>
+              ${escapeHTML(
+                station.name
+              )}
+            </span>
           </button>
         `
       )
       .join("");
 
 
-  document
+  stationList
     .querySelectorAll(
       ".station-option"
     )
@@ -556,35 +847,46 @@ function renderStations() {
           "click",
           () => {
 
-            currentStation =
+            const selected =
               button.dataset.station;
-
-
-            localStorage.setItem(
-              "denn-station",
-              currentStation
-            );
 
 
             const station =
               STATIONS.find(
                 item =>
                   item.id ===
-                  currentStation
+                  selected
               );
 
 
-            if (station) {
-
-              document.getElementById(
-                "station-name"
-              ).textContent =
-                station.name;
-
+            if (!station) {
+              return;
             }
 
 
+            currentStation =
+              station.id;
+
+
+            localStorage.setItem(
+              "denn-now-station",
+              currentStation
+            );
+
+
+            document
+              .getElementById(
+                "station-name"
+              )
+              .textContent =
+                station.name;
+
+
             closeStationModal();
+
+
+            setTransitLoading();
+
 
             loadTransit();
 
@@ -597,13 +899,59 @@ function renderStations() {
 }
 
 
+function setTransitLoading() {
+
+  const loading =
+    `
+      <div class="train-row muted">
+
+        <span>
+          Loading arrivals
+        </span>
+
+        <span>
+          —
+        </span>
+
+      </div>
+    `;
+
+
+  document
+    .getElementById(
+      "platform-1"
+    )
+    .innerHTML =
+      loading;
+
+
+  document
+    .getElementById(
+      "platform-2"
+    )
+    .innerHTML =
+      loading;
+
+
+  document
+    .getElementById(
+      "transit-status"
+    )
+    .textContent =
+      "";
+
+}
+
+
 function openStationModal() {
 
   renderStations();
 
+
   modal.classList.add(
     "open"
   );
+
 
   modal.setAttribute(
     "aria-hidden",
@@ -619,6 +967,7 @@ function closeStationModal() {
     "open"
   );
 
+
   modal.setAttribute(
     "aria-hidden",
     "true"
@@ -627,28 +976,34 @@ function closeStationModal() {
 }
 
 
-document.getElementById(
-  "station-button"
-).addEventListener(
-  "click",
-  openStationModal
-);
+document
+  .getElementById(
+    "station-button"
+  )
+  .addEventListener(
+    "click",
+    openStationModal
+  );
 
 
-document.getElementById(
-  "station-close"
-).addEventListener(
-  "click",
-  closeStationModal
-);
+document
+  .getElementById(
+    "station-close"
+  )
+  .addEventListener(
+    "click",
+    closeStationModal
+  );
 
 
-document.querySelector(
-  ".modal-backdrop"
-).addEventListener(
-  "click",
-  closeStationModal
-);
+document
+  .querySelector(
+    ".station-backdrop"
+  )
+  .addEventListener(
+    "click",
+    closeStationModal
+  );
 
 
 document.addEventListener(
@@ -657,7 +1012,9 @@ document.addEventListener(
 
     if (
       event.key === "Escape" &&
-      modal.classList.contains("open")
+      modal.classList.contains(
+        "open"
+      )
     ) {
 
       closeStationModal();
@@ -668,24 +1025,73 @@ document.addEventListener(
 );
 
 
-/* ---------------------------------------
-   BASIC ESCAPING
---------------------------------------- */
 
-function escapeHTML(value = "") {
+/* =========================================================
+   HELPERS
+========================================================= */
+
+function escapeHTML(
+  value = ""
+) {
 
   return String(value)
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
+    .replaceAll(
+      "&",
+      "&amp;"
+    )
+    .replaceAll(
+      "<",
+      "&lt;"
+    )
+    .replaceAll(
+      ">",
+      "&gt;"
+    )
+    .replaceAll(
+      '"',
+      "&quot;"
+    )
+    .replaceAll(
+      "'",
+      "&#039;"
+    );
 
 }
 
 
-function escapeAttribute(value = "") {
+function safeURL(
+  value
+) {
 
-  return escapeHTML(value);
+  if (!value) {
+    return "";
+  }
+
+
+  try {
+
+    const url =
+      new URL(value);
+
+
+    if (
+      url.protocol !== "http:" &&
+      url.protocol !== "https:"
+    ) {
+
+      return "";
+
+    }
+
+
+    return url.href;
+
+  }
+
+  catch {
+
+    return "";
+
+  }
 
 }
