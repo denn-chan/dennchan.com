@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tools | DENN.</title>
+  <meta name="description" content="Small things Dennis made to be useful.">
+  <style>
+    *{box-sizing:border-box}html{-webkit-font-smoothing:antialiased}body{margin:0;min-height:100vh;background:#f5f5f2;color:#181818;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+    a{color:inherit;text-decoration:none}.page{min-height:100vh;padding:0 28px 72px}.top{width:min(100%,980px);height:168px;margin:0 auto;display:flex;align-items:center}
+    .logo{font-size:2rem;font-weight:800;letter-spacing:-2px}.logo:hover{opacity:.65}.content{width:min(100%,700px);margin:clamp(72px,10vh,130px) auto 0}
+    h1{margin:0;font-size:clamp(3.6rem,8vw,5.5rem);font-weight:800;line-height:.9;letter-spacing:-.065em}.intro{margin:24px 0 0;color:#767672;font-size:clamp(1.1rem,2vw,1.4rem);line-height:1.4}
+    .list{margin-top:clamp(62px,9vw,96px);border-top:1px solid #d7d7d2}.tool{min-height:132px;display:grid;grid-template-columns:88px minmax(0,1fr) auto;gap:24px;align-items:center;padding:22px 4px;border-bottom:1px solid #d7d7d2;transition:opacity .18s ease}
+    .tool:hover{opacity:.64}.tool:focus-visible{outline:2px solid #181818;outline-offset:6px}.tool img,.icon-fallback{width:88px;height:88px;display:grid;place-items:center;border-radius:20px;background:#050505;color:#f5f5f2;font-size:1rem;font-weight:800}
+    .copy{min-width:0;display:grid;gap:8px}.copy strong{font-size:1.5rem;letter-spacing:-.035em}.copy span{color:#767672;font-size:.95rem;line-height:1.4}.arrow{align-self:start;margin-top:7px;color:#767672;font-size:1.25rem}
+    .status{padding:34px 4px;color:#999}footer{margin-top:74px;color:#a0a09b;font-size:.82rem}
+    @media(max-width:560px){.page{padding:0 24px 48px}.top{height:112px}.content{margin-top:54px}.logo{font-size:1.7rem}.tool{grid-template-columns:72px minmax(0,1fr) auto;gap:18px;min-height:112px}.tool img,.icon-fallback{width:72px;height:72px;border-radius:17px}.copy strong{font-size:1.3rem}.copy span{font-size:.88rem}}
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="top"><a class="logo" href="/" aria-label="DENN. home">DENN.</a></header>
+    <section class="content">
+      <h1>TOOLS.</h1><p class="intro">Small things I made to be useful.</p>
+      <nav class="list" id="list" aria-label="Tools"><div class="status">Loading tools…</div></nav>
+      <footer>© 2026 Dennis Chan</footer>
+    </section>
+  </main>
+  <script>
+    const fallback=[{name:"NOW.",description:"Live time, weather, SkyTrain and headlines.",url:"https://now.dennchan.com",icon_url:"/tools/icon-512.png"}];
+    const esc=value=>String(value??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
+    function render(tools){document.querySelector("#list").innerHTML=tools.map(tool=>`<a class="tool" href="${esc(tool.url)}">${tool.icon_url?`<img src="${esc(tool.icon_url)}" alt="" width="88" height="88">`:`<span class="icon-fallback">TOOL.</span>`}<span class="copy"><strong>${esc(tool.name)}</strong><span>${esc(tool.description)}</span></span><span class="arrow" aria-hidden="true">↗</span></a>`).join("")}
+    fetch("https://private.dennchan.com/api/public-tools").then(response=>{if(!response.ok)throw new Error();return response.json()}).then(data=>render(data.success&&data.tools.length?data.tools:fallback)).catch(()=>render(fallback));
+  </script>
+</body>
+</html>
